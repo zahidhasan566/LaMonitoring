@@ -10,6 +10,8 @@ import Users from '../views/users/Index';
 import FarmList from "../views/admin/farms/farmList.vue";
 import BreedingList from "../views/admin/breeding/breedingList.vue";
 
+import BullTypeList from "../views/admin/BullTypes/BullTypeList.vue";
+import BullList from "../views/admin/Bulls/BullList.vue";
 
 Vue.use(VueRouter);
 
@@ -66,6 +68,18 @@ const routes = [
                 path: baseurl + 'Breeding/BreedingList',
                 name: 'BreedingList',
                 component: BreedingList
+            },
+            //ADMIN ROUTE | Bull Type LIST
+            {
+                path: baseurl + 'Breeding/BullTypeList',
+                name: 'BullTypeList',
+                component: BullTypeList
+            },
+            //ADMIN ROUTE | Bull Type LIST
+            {
+                path: baseurl + 'Breeding/BullListID',
+                name: 'BullList',
+                component: BullList
             },
 
         ],

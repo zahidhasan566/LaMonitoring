@@ -104,6 +104,8 @@ export default {
             actionType: '',
             buttonShow: false,
             roles: [],
+            allCows: [],
+            allFarms: []
         }
     },
     computed: {},
@@ -111,7 +113,7 @@ export default {
         $('#add-edit-dept').on('hidden.bs.modal', () => {
             this.$emit('changeStatus')
         });
-        bus.$on('add-edit-farmlistData', (row) => {
+        bus.$on('add-edit-breedingListData', (row) => {
             if (row) {
                 let instance = this;
                 this.axiosGet('admin/get-farmList-info/' + row.FarmID, function (response) {
@@ -131,7 +133,7 @@ export default {
 
                 });
             } else {
-                this.title = 'Add Farm';
+                this.title = 'Add Breeding';
                 this.buttonText = "Add";
                 this.FarmName = '';
                 this.Owner = '';
@@ -140,6 +142,7 @@ export default {
                     this.mobile = '',
                 this.buttonShow = true;
                 this.actionType = 'add'
+                this.getData();
             }
             $("#add-edit-dept").modal("toggle");
             // $(".error-message").html("");
@@ -151,6 +154,16 @@ export default {
     methods: {
         closeModal() {
             $("#add-edit-dept").modal("toggle");
+        },
+        getData() {
+            let instance = this;
+            this.axiosGet('user/modal', function (response) {
+                instance.roles = response.roles;
+                instance.allSubMenu = response.allSubMenus;
+                console.log(instance.allSubMenu)
+            }, function (error) {
+
+            });
         },
         onSubmit() {
             this.$store.commit('submitButtonLoadingStatus', true);

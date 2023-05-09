@@ -36,7 +36,9 @@ Vue.component('data-export', require('./components/datatable/Export').default);
 
 Vue.component('add-edit-user',require('./components/users/AddEditModal').default);
 Vue.component('add-edit-farmListData',require('./components/farms/AddEditModal').default);
-
+Vue.component('add-edit-breedingListData',require('./components/breeding/AddEditModal').default);
+Vue.component('add-edit-bullTypeListData',require('./components/BullTypes/AddEditModal').default);
+Vue.component('add-edit-bullListData',require('./components/Bulls/AddEditModal').default);
 
 Vue.component('reset-password',require('./components/users/Editpassword').default);
 Vue.component('submit-form', require('./components/buttons/Submit').default);

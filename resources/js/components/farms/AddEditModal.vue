@@ -115,7 +115,6 @@ export default {
             if (row) {
                 let instance = this;
                 this.axiosGet('admin/get-farmList-info/' + row.FarmID, function (response) {
-                    console.log(row.FarmID)
                     var user = response.data;
                     instance.title = 'Update Farm';
                     instance.buttonText = "Update";

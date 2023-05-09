@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Breeding;
 
 use App\Http\Controllers\Controller;
+use App\Models\Entries;
 use App\Models\Farms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,25 @@ class BreedingController extends Controller
         $take = $request->take;
         $search = $request->search;
 
-        $farms=  Farms::join('Users', 'Users.UserID', 'Farms.EntryBy')
+        $entries=  Entries::join('Users', 'Users.UserID', 'Entries.EntryBy')
+            ->join('Cows', 'Cows.CowID', 'Entries.CowID')
+            ->join('Farms', 'Farms.FarmID', 'Entries.FarmID')
             ->where(function ($q) use ($search) {
+                $q->where('Cows.CowCode', 'like', '%' . $search . '%');
                 $q->where('Farms.FarmName', 'like', '%' . $search . '%');
-                $q->where('Farms.Owner', 'like', '%' . $search . '%');
-                $q->where('Farms.RegistrationNumber', 'like', '%' . $search . '%');
-                $q->orWhere('Farms.Mobile', 'like', '%' . $search . '%');
-                $q->orWhere('Farms.Address', 'like', '%' . $search . '%');
+                $q->where('Entries.HotDate', 'like', '%' . $search . '%');
+                $q->orWhere('Entries.SeedDate', 'like', '%' . $search . '%');
+                $q->orWhere('Entries.TestDate', 'like', '%' . $search . '%');
+                $q->orWhere('Entries.BirthDate', 'like', '%' . $search . '%');
+                $q->orWhere('Users.Name', 'like', '%' . $search . '%');
             })
             ->orderBy('Farms.FarmName', 'asc')
-            ->select('Farms.FarmID', 'Farms.FarmName', 'Farms.Owner','Farms.RegistrationNumber','Farms.Mobile', 'Farms.Address','Users.Name as Entry By','Farms.CreatedAt');
+            ->select('Entries.EntryID', 'Cows.CowCode','Farms.FarmName','Entries.Age','Entries.MilkCap as Milk Capacity',
+                 DB::raw("FORMAT(Entries.HotDate,'dd-MM-yyyy') as HotDate"),
+                 DB::raw("FORMAT(Entries.SeedDate,'dd-MM-yyyy') as SeedDate"),
+                 DB::raw("FORMAT(Entries.TestDate,'dd-MM-yyyy') as TestDate"),
+                 DB::raw("FORMAT(Entries.BirthDate,'dd-MM-yyyy') as BirthDate"),
+                 'Users.Name as Entry By','Entries.CreatedAt');
 
         if(!empty($request->filters[0]['value'])){
             $first = $request->filters[0]['value'][0];
@@ -33,8 +43,8 @@ class BreedingController extends Controller
             $start_date = date("Y-m-d", strtotime($first));
             $end_date = date("Y-m-d", strtotime($second));
 
-            $farms =  $farms->whereBetween(DB::raw("CONVERT(DATE,Farms.CreatedAt)"), [$start_date, $end_date]);
+            $entries =  $entries->whereBetween(DB::raw("CONVERT(DATE,Entries.CreatedAt)"), [$start_date, $end_date]);
         }
-        return $farms->paginate($take);
+        return $entries->paginate($take);
     }
 }

@@ -92,7 +92,7 @@ class FarmController extends Controller
     }
 
     //Get Existing farm Info
-    public function getBreedingInfo($FarmID){
+    public function getFarmInfo($FarmID){
         $farm = farms::where('FarmID', $FarmID)->first();
 
         return response()->json([
@@ -102,7 +102,7 @@ class FarmController extends Controller
     }
 
     //Update Farm Data
-    public function updateBreedingData(Request $request){
+    public function updateFarmData(Request $request){
 
         $validator = Validator::make($request->all(), [
             'FarmName' => 'required|string',

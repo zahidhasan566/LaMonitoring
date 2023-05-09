@@ -48,10 +48,26 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('update-farm-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'updateFarmData']);
 
         //Breeding
-        Route::post('BreedingList', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'index']);
-        Route::post('add-breeding-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'store']);
-        Route::get('get-breedingList-info/{EntryID}',[\App\Http\Controllers\Admin\Farm\FarmController::class,'getBreedingInfo']);
-        Route::post('update-breeding-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'updateBreedingData']);
+
+        //Breeding(Entries)
+        Route::post('BreedingList', [\App\Http\Controllers\Admin\Breeding\BreedingController::class, 'index']);
+        Route::post('add-breeding-list-data', [\App\Http\Controllers\Admin\Breeding\BreedingController::class, 'store']);
+        Route::get('get-breedingList-info/{EntryID}',[\App\Http\Controllers\Admin\Breeding\BreedingController::class,'getBreedingInfo']);
+        Route::post('update-breeding-list-data', [\App\Http\Controllers\Admin\Breeding\BreedingController::class, 'updateBreedingData']);
+
+        //Breeding(BullType Id)
+        Route::post('breeding/bullTypeList', [\App\Http\Controllers\Admin\Breeding\BullTypeController::class, 'index']);
+        Route::post('breeding/add-bull-type-list-data', [\App\Http\Controllers\Admin\Breeding\BullTypeController::class, 'store']);
+        Route::get('breeding/get-bull-type-info/{BullTypeID}',[\App\Http\Controllers\Admin\Breeding\BullTypeController::class,'getBullTypeInfo']);
+        Route::post('update-bull-type-list-data', [\App\Http\Controllers\Admin\Breeding\BullTypeController::class, 'updateBullTypeData']);
+
+        //Breeding(Bull)
+        Route::post('breeding/bullList', [\App\Http\Controllers\Admin\Breeding\BullController::class, 'index']);
+        Route::get('bull/modal',[\App\Http\Controllers\Admin\Breeding\BullController::class,'bullModalData']);
+        Route::post('breeding/add-bull-list-data', [\App\Http\Controllers\Admin\Breeding\BullController::class, 'store']);
+        Route::get('breeding/get-bull-info/{BullID}',[\App\Http\Controllers\Admin\Breeding\BullController::class,'getBullInfo']);
+        Route::post('update-bull-list-data', [\App\Http\Controllers\Admin\Breeding\BullController::class, 'updateBullData']);
+
 
     });
 

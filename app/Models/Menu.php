@@ -18,10 +18,12 @@ class Menu extends Model
     public function subMenus() {
         return $this->hasMany(SubMenu::class,'MenuID','MenuID')
             ->join('SubMenuPermission','SubMenuPermission.SubMenuID','SubMenus.SubMenuID')
-            ->where('SubMenuPermission.UserID',Auth::user()->UserID)->orderBy('SubMenuOrder');
+            ->where('SubMenus.Status',1)
+            ->where('SubMenuPermission.UserID',Auth::user()->UserID)
+            ->orderBy('SubMenuOrder');
     }
 
     public function allSubMenus() {
-        return $this->hasMany(SubMenu::class,'MenuID','MenuID');
+        return $this->hasMany(SubMenu::class,'MenuID','MenuID')->where('SubMenus.Status',1);
     }
 }

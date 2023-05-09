@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <breadcrumb :options="['BreedingList']">
-            <button class="btn btn-primary"  @click="addListDataModal()">Add Farm</button>
+            <button class="btn btn-primary"  @click="addListDataModal()">Add Breeding</button>
         </breadcrumb>
         <div class="row" style="padding:8px 0px;">
         </div>
@@ -10,7 +10,7 @@
                 <a href="javascript:" @click="addListDataModal(row.item)"> <i class="ti-pencil-alt">Edit</i></a>
             </template>
         </advanced-datatable>
-        <add-edit-farmListData @changeStatus="changeStatus" v-if="loading"/>
+        <add-edit-breedingListData @changeStatus="changeStatus" v-if="loading"/>
 <!--        <reset-password @changeStatus="changeStatus" v-if="loading"/>-->
     </div>
 </template>
@@ -25,9 +25,9 @@ export default {
     data() {
         return {
             tableOptions: {
-                source: 'admin/farmList',
+                source: 'admin/BreedingList',
                 search: true,
-                slots: [7],
+                slots: [10],
                 hideColumn: ['CreatedAt'],
                 slotsName: ['action'],
                 sortable: [2],
@@ -50,7 +50,7 @@ export default {
         addListDataModal(row = '') {
             this.loading = true;
             setTimeout(() => {
-                bus.$emit('add-edit-farmlistData', row);
+                bus.$emit('add-edit-breedingListData', row);
             })
         },
         changePassword(row) {
