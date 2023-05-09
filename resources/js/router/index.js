@@ -7,6 +7,8 @@ import {baseurl} from '../base_url'
 import NotFound from '../views/404/Index';
 
 import Users from '../views/users/Index';
+import FarmList from "../views/admin/farms/farmList.vue";
+import BreedingList from "../views/admin/breeding/breedingList.vue";
 
 
 Vue.use(VueRouter);
@@ -52,6 +54,18 @@ const routes = [
                 path: baseurl + 'users',
                 name: 'Users',
                 component: Users
+            },
+            //ADMIN ROUTE | FARM LIST
+            {
+                path: baseurl + 'Farm/Farmlist',
+                name: 'FarmList',
+                component: FarmList
+            },
+            //ADMIN ROUTE | Breeding LIST
+            {
+                path: baseurl + 'Breeding/BreedingList',
+                name: 'BreedingList',
+                component: BreedingList
             },
 
         ],

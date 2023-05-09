@@ -11,7 +11,7 @@
     <advanced-datatable :options="tableOptions">
       <template slot="action" slot-scope="row">
         <a href="javascript:" @click="addUserModal(row.item)"> <i class="ti-pencil-alt">Edit</i></a>
-<!--        <a href="javascript:" @click="changePassword(row.item.UserID)"> <i class="ti-lock"></i></a>-->
+<!--        <a href="javascript:" @click="changePassword(row.item.FarmID)"> <i class="ti-trash">Delete</i></a>-->
       </template>
     </advanced-datatable>
     <add-edit-user @changeStatus="changeStatus" v-if="loading"/>

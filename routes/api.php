@@ -38,6 +38,23 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('password-change',[\App\Http\Controllers\Common\HelperController::class,'passwordChange']);
     });
 
+    // ADMIN ACTION
+    Route::group(['prefix' => 'admin'],function () {
+
+        //Farms
+        Route::post('farmList', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'index']);
+        Route::post('add-farm-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'store']);
+        Route::get('get-farmList-info/{FarmID}',[\App\Http\Controllers\Admin\Farm\FarmController::class,'getFarmInfo']);
+        Route::post('update-farm-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'updateFarmData']);
+
+        //Breeding
+        Route::post('BreedingList', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'index']);
+        Route::post('add-breeding-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'store']);
+        Route::get('get-breedingList-info/{EntryID}',[\App\Http\Controllers\Admin\Farm\FarmController::class,'getBreedingInfo']);
+        Route::post('update-breeding-list-data', [\App\Http\Controllers\Admin\Farm\FarmController::class, 'updateBreedingData']);
+
+    });
+
 
 });
 

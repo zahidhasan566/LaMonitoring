@@ -33,7 +33,11 @@ Vue.component('submit-form', require('./components/buttons/Submit').default);
 Vue.component('advanced-datatable', require('./components/datatable/Advanced').default);
 Vue.component('breadcrumb', require('./components/layouts/Breadcrumb').default);
 Vue.component('data-export', require('./components/datatable/Export').default);
+
 Vue.component('add-edit-user',require('./components/users/AddEditModal').default);
+Vue.component('add-edit-farmListData',require('./components/farms/AddEditModal').default);
+
+
 Vue.component('reset-password',require('./components/users/Editpassword').default);
 Vue.component('submit-form', require('./components/buttons/Submit').default);
 
