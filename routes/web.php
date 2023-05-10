@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/{app?}',[HomeController::class,'index'])->where('app','.*');
+Route::any('/{slug?}', [HomeController::class, 'index'])->where('app', '[\/\w\.-]*')->name('home');
+//Route::get('/{app?}',[HomeController::class,'index'])->where('app','.*');

@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Entries extends Model
+class Cows extends Model
 {
     use HasFactory;
-    protected $table = "Entries";
-    public $primaryKey = 'EntryID';
+    protected $table = "Cows";
+    public $primaryKey = 'CowID';
     protected $guarded = [];
     public $timestamps = false;
-
-    public function LaInfo() {
-        return $this->hasOne(User::class,'UserID','EntryBy');
-    }
 }

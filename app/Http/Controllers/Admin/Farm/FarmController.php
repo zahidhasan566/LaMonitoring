@@ -47,6 +47,7 @@ class FarmController extends Controller
 
     //Store Data
     public function store(Request $request){
+
         $validator = Validator::make($request->all(), [
             'FarmName' => 'required|string',
             'Owner' => 'required',
