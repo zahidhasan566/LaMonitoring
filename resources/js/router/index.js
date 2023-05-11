@@ -10,8 +10,10 @@ import Users from '../views/users/Index';
 import FarmList from "../views/admin/farms/farmList.vue";
 import BreedingList from "../views/admin/breeding/breedingList.vue";
 
-import BullTypeList from "../views/admin/BullTypes/BullTypeList.vue";
-import BullList from "../views/admin/Bulls/BullList.vue";
+import BullTypeList from "../views/admin/bullTypes/BullTypeList.vue";
+import BullList from "../views/admin/bulls/BullList.vue";
+import EventList from "../views/admin/setting/events/EventList.vue";
+import NoticeList from "../views/admin/setting/notices/NoticeList.vue";
 
 Vue.use(VueRouter);
 
@@ -59,27 +61,39 @@ const routes = [
             },
             //ADMIN ROUTE | FARM LIST
             {
-                path: baseurl + 'Farm/Farmlist',
+                path: baseurl + 'farm/farmlist',
                 name: 'FarmList',
                 component: FarmList
             },
             //ADMIN ROUTE | Breeding LIST
             {
-                path: baseurl + 'Breeding/BreedingList',
+                path: baseurl + 'breeding/breedingList',
                 name: 'BreedingList',
                 component: BreedingList
             },
             //ADMIN ROUTE | Bull Type LIST
             {
-                path: baseurl + 'Breeding/BullTypeList',
+                path: baseurl + 'breeding/bullTypeList',
                 name: 'BullTypeList',
                 component: BullTypeList
             },
             //ADMIN ROUTE | Bull Type LIST
             {
-                path: baseurl + 'Breeding/BullListID',
+                path: baseurl + 'breeding/bullListID',
                 name: 'BullList',
                 component: BullList
+            },
+            //ADMIN ROUTE | Setting
+            {
+                path: baseurl + 'setting/event',
+                name: 'EventList',
+                component: EventList
+            },
+            //ADMIN ROUTE | Bull Type LIST
+            {
+                path: baseurl + 'setting/notice',
+                name: 'NoticeList',
+                component: NoticeList
             },
 
         ],

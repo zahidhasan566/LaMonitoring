@@ -20,12 +20,12 @@ class BullTypeController extends Controller
         $take = $request->take;
         $search = $request->search;
 
-        $farms=  BullTypes::join('Users', 'Users.UserID', 'BullTypes.EntryBy')
+        $farms=  BullTypes::join('Users', 'Users.UserID', 'bullTypes.EntryBy')
             ->where(function ($q) use ($search) {
-                $q->where('BullTypes.BullTypeName', 'like', '%' . $search . '%');
+                $q->where('bullTypes.BullTypeName', 'like', '%' . $search . '%');
             })
-            ->orderBy('BullTypes.BullTypeName', 'asc')
-            ->select('BullTypes.BullTypeID', 'BullTypes.BullTypeName','Users.Name as Entry By','BullTypes.CreatedAt');
+            ->orderBy('bullTypes.BullTypeName', 'asc')
+            ->select('bullTypes.BullTypeID', 'bullTypes.BullTypeName','Users.Name as Entry By','bullTypes.CreatedAt');
 
         if(!empty($request->filters[0]['value'])){
             $first = $request->filters[0]['value'][0];
@@ -34,7 +34,7 @@ class BullTypeController extends Controller
             $start_date = date("Y-m-d", strtotime($first));
             $end_date = date("Y-m-d", strtotime($second));
 
-            $farms =  $farms->whereBetween(DB::raw("CONVERT(DATE,BullTypes.CreatedAt)"), [$start_date, $end_date]);
+            $farms =  $farms->whereBetween(DB::raw("CONVERT(DATE,bullTypes.CreatedAt)"), [$start_date, $end_date]);
         }
         return $farms->paginate($take);
     }

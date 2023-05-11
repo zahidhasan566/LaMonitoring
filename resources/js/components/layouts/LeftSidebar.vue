@@ -7,14 +7,14 @@
                 <ul class="metismenu" id="side-menu">
                     <li class="menu-title">Main</li>
                     <li v-for="(menu,index) in menus" :key="index" v-if="(menu.sub_menus.length >=1 && me.RoleID !=='SuperAdmin') || (menu.sub_menus.length >=0 && me.RoleID ==='SuperAdmin' )">
-                        <router-link :to="`/LaMonitoring/${menu.MenuLink}`" class="waves-effect" :id="`area${index}`">
+                        <router-link :to="`${MenuBaseUrl}${menu.MenuLink}`" class="waves-effect" :id="`area${index}`">
                             <i :class="menu.MenuIcon"></i>
                             <span>  {{ menu.MenuName }}
                                 <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></span>
                         </router-link>
                         <ul class="submenu" v-if="menu.sub_menus.length > 0" :aria-labelledby="`area${index}`">
                             <li>
-                                <router-link  v-for="(subMenu,index2) in menu.sub_menus" :key="index2" :to="`/LaMonitoring/${subMenu.SubMenuLink}`">
+                                <router-link  v-for="(subMenu,index2) in menu.sub_menus" :key="index2" :to="`${MenuBaseUrl}${subMenu.SubMenuLink}`">
                                    <i class="ti-control-forward"></i> {{ subMenu.SubMenuName }}
                                 </router-link>
 
@@ -34,6 +34,7 @@
 <script >
 import {Common} from "../../mixins/common";
 import {baseurl} from "../../base_url";
+
 import {bus} from "../../app";
 
 export default {
@@ -45,9 +46,11 @@ export default {
             myModel:false,
             updatePassword:'',
             confirmUpdatePassword: '',
+            MenuBaseUrl:''
         }
     },
     mounted() {
+        this.MenuBaseUrl = baseurl
         this.getData();
     },
     // created() {

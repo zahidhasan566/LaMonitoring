@@ -11,13 +11,16 @@ import {baseurl} from './base_url'
 Vue.prototype.mainOrigin = baseurl
 
 
-//Multi select
 //Vue Multiselect
 import Multiselect from 'vue-multiselect'
 Vue.component('multiselect', Multiselect)
 //Bus to transfer data
 export const bus = new Vue();
 
+
+//Vue Datepicker
+import { Datepicker } from '@livelybone/vue-datepicker';
+Vue.component('datepicker', Datepicker);
 //Toaster
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
@@ -37,8 +40,11 @@ Vue.component('data-export', require('./components/datatable/Export').default);
 Vue.component('add-edit-user',require('./components/users/AddEditModal').default);
 Vue.component('add-edit-farmListData',require('./components/farms/AddEditModal').default);
 Vue.component('add-edit-breedingListData',require('./components/breeding/AddEditModal').default);
-Vue.component('add-edit-bullTypeListData',require('./components/BullTypes/AddEditModal').default);
-Vue.component('add-edit-bullListData',require('./components/Bulls/AddEditModal').default);
+Vue.component('add-edit-bullTypeListData',require('./components/bullTypes/AddEditModal').default);
+Vue.component('add-edit-bullListData',require('./components/bulls/AddEditModal').default);
+Vue.component('add-edit-eventData',require('./components/setting/events/AddEditModal').default);
+Vue.component('add-edit-noticeData',require('./components/setting/notices/AddEditModal').default);
+
 
 Vue.component('reset-password',require('./components/users/Editpassword').default);
 Vue.component('submit-form', require('./components/buttons/Submit').default);

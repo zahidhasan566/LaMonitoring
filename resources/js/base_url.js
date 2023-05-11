@@ -1,1 +1,1 @@
-export const baseurl = "/LaMonitoring/";
+export const baseurl = "/la_monitoring/";

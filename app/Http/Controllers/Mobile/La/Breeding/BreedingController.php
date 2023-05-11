@@ -18,7 +18,7 @@ class BreedingController extends Controller
 {
 
     public function getBullData(){
-        $bullData=  Bulls::select('Bulls.*','BullTypes.*')->join('BullTypes','BullTypes.BullTypeID','Bulls.BullTypeID')->get();
+        $bullData=  Bulls::select('bulls.*','bullTypes.*')->join('bullTypes','bullTypes.BullTypeID','bulls.BullTypeID')->get();
         return response()->json([
             'status' => 'success',
             '$allBullData' => $bullData
