@@ -21,6 +21,9 @@ export const bus = new Vue();
 //Vue Datepicker
 import { Datepicker } from '@livelybone/vue-datepicker';
 Vue.component('datepicker', Datepicker);
+import '@livelybone/vue-datepicker/lib/css/index.css'
+
+
 //Toaster
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'

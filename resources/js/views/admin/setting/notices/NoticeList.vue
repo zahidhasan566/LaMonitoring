@@ -16,7 +16,7 @@
 </template>
 <script>
 import {Common} from "../../../../mixins/common";
-import {bus} from "../../../app";
+import {bus} from "../../../../app";
 import moment from "moment/moment";
 
 export default {

@@ -58,8 +58,8 @@ class FarmController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], 400);
         }
-        //Data Insert
 
+        //Data Insert
         try {
             DB::beginTransaction();
             $farm = new Farms();

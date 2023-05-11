@@ -9,6 +9,16 @@
             <template slot="action" slot-scope="row">
                 <a href="javascript:" @click="addListDataModal(row.item)"> <i class="ti-pencil-alt">Edit</i></a>
             </template>
+            <template slot="EventImage" slot-scope="row">
+                <div>
+                    <img  style=" width: 300px" :src="`${image}/uploads/${row.item.EventImage}`" alt="eventImage">
+                </div>
+            </template>
+            <template slot="Status" slot-scope="row">
+                <span v-if="row.item.Status==='1'">Active</span>
+                <span v-else>Inactive</span>
+            </template>
+
         </advanced-datatable>
         <add-edit-eventData @changeStatus="changeStatus" v-if="loading"/>
 <!--        <reset-password @changeStatus="changeStatus" v-if="loading"/>-->
@@ -16,20 +26,22 @@
 </template>
 <script>
 import {Common} from "../../../../mixins/common";
-import {bus} from "../../../app";
-import moment from "moment/moment";
+import {bus} from "../../../../app";
+import moment from "moment";
+import {baseurl} from "../../../../base_url";
 
 export default {
     mixins: [Common],
 
     data() {
         return {
+            image:'',
             tableOptions: {
-                source: 'admin/breeding/bullList',
+                source: 'admin/setting/eventList',
                 search: true,
-                slots: [5],
+                slots: [1,4,6],
                 hideColumn: ['CreatedAt'],
-                slotsName: ['action'],
+                slotsName: ['EventImage','Status','action'],
                 sortable: [2],
                 pages: [20, 50, 100],
                 addHeader: ['Action'],
@@ -43,6 +55,9 @@ export default {
             cpLoading: false,
         }
     },
+    created() {
+        this.image= baseurl;
+    },
     methods: {
         changeStatus() {
             this.loading = false
@@ -50,7 +65,7 @@ export default {
         addListDataModal(row = '') {
             this.loading = true;
             setTimeout(() => {
-                bus.$emit('add-edit-bullListData', row);
+                bus.$emit('add-edit-eventData', row);
             })
         },
         changePassword(row) {

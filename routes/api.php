@@ -68,6 +68,11 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::get('breeding/get-bull-info/{BullID}',[\App\Http\Controllers\Admin\Breeding\BullController::class,'getBullInfo']);
         Route::post('update-bull-list-data', [\App\Http\Controllers\Admin\Breeding\BullController::class, 'updateBullData']);
 
+        //Setting
+        Route::post('setting/eventList', [\App\Http\Controllers\Admin\Setting\Event\EventController::class, 'index']);
+        Route::post('setting/eventList/add-event-list-data', [\App\Http\Controllers\Admin\Setting\Event\EventController::class,'store']);
+
+
 
     });
 
