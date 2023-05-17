@@ -6,10 +6,10 @@
           <div class="content">
               <div class="container-fluid">
                   <router-view></router-view>
-                  <Footer/>
               </div>
           </div>
         </div>
+        <Footer/>
     </div>
 </template>
 <script>

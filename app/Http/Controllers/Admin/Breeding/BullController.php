@@ -100,7 +100,7 @@ class BullController extends Controller
         ]);
     }
 
-    //Update Farm Data
+    //Update Bull Data
     public function updateBullData(Request $request){
 
         $validator = Validator::make($request->all(), [

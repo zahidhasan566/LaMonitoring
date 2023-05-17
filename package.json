@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@livelybone/vue-datepicker": "^4.1.2",
+        "bootstrap-vue": "^2.23.1",
         "moment": "^2.29.4",
         "number-currency-format": "^1.0.10",
         "sweetalert2": "^11.7.3",

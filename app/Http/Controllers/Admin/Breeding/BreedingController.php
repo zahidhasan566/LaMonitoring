@@ -21,8 +21,8 @@ class BreedingController extends Controller
             ->join('Farms', 'Farms.FarmID', 'Entries.FarmID')
             ->where(function ($q) use ($search) {
                 $q->where('Cows.CowCode', 'like', '%' . $search . '%');
-                $q->where('Farms.FarmName', 'like', '%' . $search . '%');
-                $q->where('Entries.HotDate', 'like', '%' . $search . '%');
+                $q->orWhere('Farms.FarmName', 'like', '%' . $search . '%');
+                $q->orWhere('Entries.HotDate', 'like', '%' . $search . '%');
                 $q->orWhere('Entries.SeedDate', 'like', '%' . $search . '%');
                 $q->orWhere('Entries.TestDate', 'like', '%' . $search . '%');
                 $q->orWhere('Entries.BirthDate', 'like', '%' . $search . '%');

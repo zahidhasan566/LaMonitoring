@@ -10,8 +10,8 @@
                 <a href="javascript:" @click="addListDataModal(row.item)"> <i class="ti-pencil-alt">Edit</i></a>
             </template>
             <template slot="EventImage" slot-scope="row">
-                <div>
-                    <img  style=" width: 300px" :src="`${image}/uploads/${row.item.EventImage}`" alt="eventImage">
+                <div style="text-align: center">
+                    <img  style=" width: 100px" :src="`${image}/uploads/${row.item.EventImage}`" alt="eventImage">
                 </div>
             </template>
             <template slot="Status" slot-scope="row">
@@ -39,7 +39,7 @@ export default {
             tableOptions: {
                 source: 'admin/setting/eventList',
                 search: true,
-                slots: [1,4,6],
+                slots: [2,5,7],
                 hideColumn: ['CreatedAt'],
                 slotsName: ['EventImage','Status','action'],
                 sortable: [2],

@@ -11,47 +11,80 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12 col-md-12">
-                                        <ValidationProvider name="BullTypeName" mode="eager" rules="required"
+                                        <ValidationProvider name="NoticeTitle" mode="eager" rules="required"
                                                             v-slot="{ errors }">
                                             <div class="form-group">
-                                                <label for="BullTypeName">Bull Type Name <span class="error">*</span></label>
-                                                <select class="form-control" id="BullTypeName"
-                                                        v-model="BullTypeID" name="BullTypeName">
-                                                    <option v-for="(bullTypeName,index) in BullType" :value="bullTypeName.BullTypeID">{{bullTypeName.BullTypeName}}</option>
-                                                </select>
-                                               <span class="error-message"> {{ errors[0] }}</span>
-                                            </div>
-                                        </ValidationProvider>
-                                    </div>
-                                    <div class="col-12 col-md-12">
-                                        <ValidationProvider name="BullTypeName" mode="eager" rules="required"
-                                                            v-slot="{ errors }">
-                                            <div class="form-group">
-                                                <label for="BullName">Bull Name <span class="error">*</span></label>
+                                                <label for="NoticeTitle">Notice Title <span class="error">*</span></label>
                                                 <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}" id="BullName"
-                                                       v-model="BullName" name="BullName" placeholder="Bull  Name">
+                                                       :class="{'error-border': errors[0]}" id="NoticeTitle"
+                                                       v-model="NoticeTitle" name="NoticeTitle" placeholder="Notice  Title">
                                                 <span class="error-message"> {{ errors[0] }}</span>
                                             </div>
                                         </ValidationProvider>
                                     </div>
-                                    <div class="col-12 col-md-12">
-                                        <ValidationProvider name="BullTypeName" mode="eager" rules="required"
+                                    <div class="col-12 col-md-6">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <ValidationProvider name="NoticeStartFrom" mode="eager" rules="required"
                                                             v-slot="{ errors }">
                                             <div class="form-group">
-                                                <label for="BullCode">Bull Code <span class="error">*</span></label>
-                                                <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}" id="BullName"
-                                                       v-model="BullCode" name="BullCode" placeholder="Bull Code">
+                                                <label for="NoticeStartFrom">Notice Start Date Time<span
+                                                    class="error">*</span></label>
+
+                                                <datetime format="YYYY-MM-DD H:i:s" width="300px"
+                                                          v-model="NoticeStartFrom"></datetime>
+                                                <span class="error-message"> {{ errors[0] }}</span>
+                                            </div>
+                                        </ValidationProvider>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <ValidationProvider name="NoticeEndTo" mode="eager" rules="required"
+                                                            v-slot="{ errors }">
+                                            <div class="form-group">
+                                                <label for="NoticeEndTo">Notice End Date Time<span
+                                                    class="error">*</span></label>
+
+                                                <datetime format="YYYY-MM-DD H:i:s" width="300px"
+                                                          v-model="NoticeEndTo"></datetime>
                                                 <span class="error-message"> {{ errors[0] }}</span>
                                             </div>
                                         </ValidationProvider>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <ValidationProvider name="NoticeDescription" mode="eager" rules="required"
+                                                            v-slot="{ errors }">
+                                        <div class="form-group">
+                                            <label for="Notice Description">Notice Description <span class="error">*</span></label>
+                                            <textarea class="form-control" v-model="NoticeDescription"></textarea>
+                                            <span class="error-message"> {{ errors[0] }}</span>
+                                        </div>
+                                        </ValidationProvider>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <ValidationProvider name="Status" mode="eager" rules="required"
+                                                            v-slot="{ errors }">
+                                            <div class="form-group">
+                                                <label for="status">Status <span class="error">*</span></label>
+                                                <select class="form-control" v-model="Status">
+                                                    <option value="1">Active</option>
+                                                    <option value="0">Inactive</option>
+                                                </select>
+                                                <span class="error-message"> {{ errors[0] }}</span>
+                                            </div>
+                                        </ValidationProvider>
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <submit-form v-if="buttonShow" :name="buttonText"/>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        @click="closeModal">Close
+                                </button>
                             </div>
                         </form>
                     </ValidationObserver>
@@ -63,19 +96,24 @@
 <script>
 import {bus} from "../../../app";
 import {Common} from "../../../mixins/common";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 import {mapGetters} from "vuex";
+import datetime from 'vuejs-datetimepicker';
+
 
 export default {
+    components: {DatePicker, datetime},
     mixins: [Common],
     data() {
         return {
             title: '',
-            BullType: [],
-            BullID:'',
-            BullTypeID:'',
-            BullTypeName:'',
-            BullName:'',
-            BullCode:'',
+            NoticeID: '',
+            NoticeTitle: '',
+            NoticeStartFrom: '',
+            NoticeEndTo: '',
+            NoticeDescription: '',
+            Status: '',
             buttonText: '',
             type: 'add',
             actionType: '',
@@ -87,63 +125,61 @@ export default {
         $('#add-edit-dept').on('hidden.bs.modal', () => {
             this.$emit('changeStatus')
         });
-        bus.$on('add-edit-bullListData', (row) => {
+        bus.$on('add-edit-noticeData', (row) => {
             if (row) {
                 let instance = this;
-                this.axiosGet('admin/breeding/get-bull-info/' + row.BullID, function (response) {
+                instance.axiosGet('admin/setting/noticeList/get-notice-list-info/' + row.NoticeID, function (response) {
                     var user = response.data;
-                    console.log(row.BullID)
-                    instance.title = 'Update Bull Type';
+                    instance.title = 'Update Notice';
                     instance.buttonText = "Update";
-                    instance.BullID = user.BullID;
-                    instance.BullTypeID = user.BullTypeID;
-                    instance.BullTypeName = user.BullTypeName;
-                    instance.BullName = user.BullName;
-                    instance.BullCode = user.BullCode;
+                    instance.NoticeID = user.NoticeID;
+                    instance.NoticeTitle = user.NoticeTitle;
+                    instance.NoticeStartFrom = user.NoticeStartFrom;
+                    instance.NoticeEndTo = user.NoticeEndTo;
+                    instance.NoticeDescription = user.NoticeDescription;
+                    instance.Status = user.Status;
                     instance.buttonShow = true;
                     instance.actionType = 'edit';
-                    instance.getData();
                 }, function (error) {
                     console.log(error)
                 });
             } else {
-                this.title = 'Add Bull Type';
+                this.title = 'Add Notice';
                 this.buttonText = "Add";
-                this.BullTypeName = '';
+                this.NoticeID = '';
+                this.NoticeTitle = '';
+                this.NoticeStartFrom = '';
+                this.NoticeEndTo = '';
+                this.NoticeDescription = '';
+                this.Status = '';
                 this.buttonShow = true;
                 this.actionType = 'add'
-                this.getData();
+
             }
             $("#add-edit-dept").modal("toggle");
             // $(".error-message").html("");
         })
     },
     destroyed() {
-        bus.$off('add-edit-bullListData')
+        bus.$off('add-edit-noticeData')
     },
     methods: {
         closeModal() {
             $("#add-edit-dept").modal("toggle");
         },
-        getData() {
-            let instance = this;
-            this.axiosGet('admin/bull/modal', function (response) {
-                instance.BullType = response.BullType;
-                console.log(instance.BullType)
-            }, function (error) {
-
-            });
-        },
         onSubmit() {
+            console.log(this)
             this.$store.commit('submitButtonLoadingStatus', true);
             let url = '';
-            if (this.actionType === 'add') url = 'admin/breeding/add-bull-list-data';
-            else url = 'admin/update-bull-list-data'
+            if (this.actionType === 'add') url = 'admin/setting/noticeList/add-notice-list-data';
+            else url = 'admin/update/setting/noticeList/add-notice-list-data'
             this.axiosPost(url, {
-                BullID: this.BullID,
-                BullTypeID: this.BullTypeID,
-                BullName: this.BullName,
-                BullCode: this.BullCode,
+                NoticeID: this.NoticeID,
+                NoticeTitle: this.NoticeTitle,
+                NoticeStartFrom: this.NoticeStartFrom,
+                NoticeEndTo: this.NoticeEndTo,
+                NoticeDescription: this.NoticeDescription,
+                Status: this.Status,
             }, (response) => {
                 this.successNoti(response.message);
                 $("#add-edit-dept").modal("toggle");
@@ -157,5 +193,14 @@ export default {
     }
 }
 </script>
+<style lang="scss">
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+.mx-datepicker {
+    width: 100% !important;
+}
+
+.datepicker .picker .picker-content {
+    width: 350px !important;
+}
+</style>
+

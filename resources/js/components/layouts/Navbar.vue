@@ -111,7 +111,7 @@ export default {
         }
     },
     created() {
-        this.image = baseurl + 'assets/images//users/user-10.jpg'
+        this.image = baseurl + 'assets/images/users/user-10.jpg'
     },
     computed: {
         me() {

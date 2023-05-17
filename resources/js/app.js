@@ -29,6 +29,9 @@ import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 Vue.use(Toaster, {timeout: 5000})
 
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
 //moment
 import moment from 'moment'
 

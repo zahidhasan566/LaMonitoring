@@ -6,6 +6,10 @@
         <div class="row" style="padding:8px 0px;">
         </div>
         <advanced-datatable :options="tableOptions">
+            <template slot="Status" slot-scope="row">
+                <span v-if="row.item.Status==='1'">Active</span>
+                <span v-else>Inactive</span>
+            </template>
             <template slot="action" slot-scope="row">
                 <a href="javascript:" @click="addListDataModal(row.item)"> <i class="ti-pencil-alt">Edit</i></a>
             </template>
@@ -25,11 +29,11 @@ export default {
     data() {
         return {
             tableOptions: {
-                source: 'admin/breeding/bullList',
+                source: 'admin/setting/noticeList',
                 search: true,
-                slots: [5],
+                slots: [5,7],
                 hideColumn: ['CreatedAt'],
-                slotsName: ['action'],
+                slotsName: ['Status','action'],
                 sortable: [2],
                 pages: [20, 50, 100],
                 addHeader: ['Action'],
@@ -50,7 +54,7 @@ export default {
         addListDataModal(row = '') {
             this.loading = true;
             setTimeout(() => {
-                bus.$emit('add-edit-bullListData', row);
+                bus.$emit('add-edit-noticeData', row);
             })
         },
         changePassword(row) {

@@ -16,23 +16,13 @@
                                             <div class="form-group">
                                                 <label for="EventName">Event Name <span class="error">*</span></label>
                                                 <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}" id="BullName"
+                                                       :class="{'error-border': errors[0]}" id="EventName"
                                                        v-model="EventName" name="EventName" placeholder="Event  Name">
                                                 <span class="error-message"> {{ errors[0] }}</span>
                                             </div>
                                         </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <!--                                        <ValidationProvider name="EventPeriod" mode="eager" rules="required"-->
-                                        <!--                                                            v-slot="{ errors }">-->
-                                        <!--                                            <div class="form-group">-->
-                                        <!--                                                <label for="EventName">Event Period <span class="error">*</span></label>-->
-
-                                        <!--                                                <date-picker v-model="EventPeriod" name="EventPeriod"  :class="{'error-border': errors[0]}"-->
-                                        <!--                                                             format="DD-MM-YYYY" range valueType="format"></date-picker>-->
-                                        <!--                                                <span class="error-message"> {{ errors[0] }}</span>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </ValidationProvider>-->
                                     </div>
                                 </div>
                                 <div class="row">
@@ -75,7 +65,7 @@
                                                             v-slot="{ errors }">
                                             <div class="form-group">
                                                 <label for="status">Status <span class="error">*</span></label>
-                                                <select class="form-control" v-model="status">
+                                                <select class="form-control" v-model="Status">
                                                     <option value="1">Active</option>
                                                     <option value="0">Inactive</option>
                                                 </select>
@@ -119,10 +109,11 @@ export default {
             EventPeriod: [],
             EventStartDate: '',
             EventEndDate: '',
-            attachment: '',
-            status: '',
+            Attachment: '',
+            Status: '',
             buttonText: '',
             type: 'add',
+            AttachmentFlag: 0,
             actionType: '',
             buttonShow: false,
         }
@@ -135,16 +126,16 @@ export default {
         bus.$on('add-edit-eventData', (row) => {
             if (row) {
                 let instance = this;
-                this.axiosGet('admin/breeding/get-bull-info/' + row.BullID, function (response) {
+                instance.axiosGet('admin/setting/eventList/get-event-list-info/' + row.EventID, function (response) {
                     var user = response.data;
-                    console.log(row.BullID)
-                    instance.title = 'Update Bull Type';
+                    instance.title = 'Update Event';
                     instance.buttonText = "Update";
-                    instance.BullID = user.BullID;
-                    instance.BullTypeID = user.BullTypeID;
-                    instance.BullTypeName = user.BullTypeName;
-                    instance.BullName = user.BullName;
-                    instance.BullCode = user.BullCode;
+                    instance.EventID = user.EventID;
+                    instance.EventName = user.EventName;
+                    instance.EventStartDate = user.EventStartFrom;
+                    instance.EventEndDate = user.EventEndTo;
+                    instance.Attachment = user.EventImage;
+                    instance.Status = user.Status;
                     instance.buttonShow = true;
                     instance.actionType = 'edit';
                 }, function (error) {
@@ -153,7 +144,12 @@ export default {
             } else {
                 this.title = 'Add Event';
                 this.buttonText = "Add";
-                this.BullTypeName = '';
+                this.EventID = '';
+                this.EventName = '';
+                this.EventStartDate = '';
+                this.EventEndDate = '';
+                this.Attachment = '';
+                this.Status = '';
                 this.buttonShow = true;
                 this.actionType = 'add'
 
@@ -184,8 +180,8 @@ export default {
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
-                instance.attachment = reader.result
-                console.log(reader.result)
+                instance.Attachment = reader.result
+                instance.AttachmentFlag =1
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);
@@ -196,28 +192,27 @@ export default {
         },
         checkFieldValue() {
             this.errors = [];
-            console.log('Attachment', this.attachment)
-            if (this.attachment === '') {
-                console.log('attachment' + this.attachment)
+            if (this.Attachment === '') {
+                console.log('Attachment' + this.Attachment)
                 this.errors.push('error')
                 this.errorNoti('No Image For This Event')
             }
         },
         onSubmit() {
-            console.log("ok")
             this.checkFieldValue()
             if (this.errors.length === 0) {
                 this.$store.commit('submitButtonLoadingStatus', true);
                 let url = '';
                 if (this.actionType === 'add') url = 'admin/setting/eventList/add-event-list-data';
-                else url = 'admin/update-bull-list-data'
+                else url = 'admin/update/setting/eventList/add-event-list-data'
                 this.axiosPost(url, {
                     EventID: this.EventID,
                     EventName: this.EventName,
                     EventStartFrom: this.EventStartDate,
                     EventEndTo: this.EventEndDate,
-                    attachment: this.attachment,
-                    Status: this.status,
+                    Attachment: this.Attachment,
+                    Status: this.Status,
+                    AttachmentFlag: this.Status,
                 }, (response) => {
                     this.successNoti(response.message);
                     $("#add-edit-dept").modal("toggle");

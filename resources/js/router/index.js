@@ -14,6 +14,9 @@ import BullTypeList from "../views/admin/bullTypes/BullTypeList.vue";
 import BullList from "../views/admin/bulls/BullList.vue";
 import EventList from "../views/admin/setting/events/EventList.vue";
 import NoticeList from "../views/admin/setting/notices/NoticeList.vue";
+import BreedingReportList from "../views/admin/reports/breedingReportList.vue";
+import ReBreedingReportList from "../views/admin/reports/reBreedingReportList.vue";
+
 
 Vue.use(VueRouter);
 
@@ -77,23 +80,35 @@ const routes = [
                 name: 'BullTypeList',
                 component: BullTypeList
             },
-            //ADMIN ROUTE | Bull Type LIST
+            //ADMIN ROUTE | Bull LIST
             {
                 path: baseurl + 'breeding/bullListID',
                 name: 'BullList',
                 component: BullList
             },
-            //ADMIN ROUTE | Setting
+            //ADMIN ROUTE | Event
             {
                 path: baseurl + 'setting/event',
                 name: 'EventList',
                 component: EventList
             },
-            //ADMIN ROUTE | Bull Type LIST
+            //ADMIN ROUTE | Notice LIST
             {
                 path: baseurl + 'setting/notice',
                 name: 'NoticeList',
                 component: NoticeList
+            },
+            //ADMIN ROUTE | Breeding Report LIST
+            {
+                path: baseurl + 'report/breeding',
+                name: 'BreedingReportList',
+                component: BreedingReportList
+            },
+            //ADMIN ROUTE | Re Breeding Report LIST
+            {
+                path: baseurl + 'report/reBreeding',
+                name: 'ReBreedingReportList',
+                component: ReBreedingReportList
             },
 
         ],

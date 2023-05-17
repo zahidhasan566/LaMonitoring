@@ -26,6 +26,7 @@ Route::group(['middleware' => ['jwt']], function () {
 
 
 Route::group(['middleware' => ['jwt:api']], function () {
+    Route::get('dashboard-data',[\App\Http\Controllers\Common\DashboardController::class,'index']);
 
     // ADMIN USERS
     Route::group(['prefix' => 'user'],function () {
@@ -69,8 +70,21 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('update-bull-list-data', [\App\Http\Controllers\Admin\Breeding\BullController::class, 'updateBullData']);
 
         //Setting
+        //Event
         Route::post('setting/eventList', [\App\Http\Controllers\Admin\Setting\Event\EventController::class, 'index']);
         Route::post('setting/eventList/add-event-list-data', [\App\Http\Controllers\Admin\Setting\Event\EventController::class,'store']);
+        Route::get('setting/eventList/get-event-list-info/{EventID}', [\App\Http\Controllers\Admin\Setting\Event\EventController::class,'getEventInfo']);
+        Route::post('update/setting/eventList/add-event-list-data', [\App\Http\Controllers\Admin\Setting\Event\EventController::class,'updateEventData']);
+
+        //Notice
+        Route::post('setting/noticeList', [\App\Http\Controllers\Admin\Setting\Notice\NoticeController::class, 'index']);
+        Route::post('setting/noticeList/add-notice-list-data', [\App\Http\Controllers\Admin\Setting\Notice\NoticeController::class,'store']);
+        Route::get('setting/noticeList/get-notice-list-info/{NoticeID}', [\App\Http\Controllers\Admin\Setting\Notice\NoticeController::class,'getNoticeInfo']);
+        Route::post('update/setting/noticeList/add-notice-list-data', [\App\Http\Controllers\Admin\Setting\Notice\NoticeController::class,'updateNoticeData']);
+
+        //Report
+        Route::post('report/breedingReportList', [\App\Http\Controllers\Admin\Report\BreedingReportController::class, 'index']);
+        Route::post('report/reBreedingReportList', [\App\Http\Controllers\Admin\Report\BreedingReportController::class, 'reBreeding']);
 
 
 

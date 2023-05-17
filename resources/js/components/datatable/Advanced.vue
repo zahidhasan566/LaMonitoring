@@ -5,7 +5,7 @@
         <div class="card" v-if="requestParams.filters">
           <div class="card-body">
             <div class="row">
-              <div class="col-12 col-md-3"
+              <div class="col-4 col-md-3"
                    v-for="(filter,index) in requestParams.filters" :key="index">
                 <div class="form-group" style="margin-bottom: unset">
                   <select class="form-control" id="filter" v-if="filter.type==='dropdown'" v-model="filter.value"
@@ -15,17 +15,26 @@
                       {{ option.text }}
                     </option>
                   </select>
-                  <date-picker v-else-if="filter.type==='datepicker'" v-model="filter.value" :placeholder="filter.title"
-                               format="DD-MM-YYYY" valueType="format"></date-picker>
-                  <date-picker v-else-if="filter.type==='rangepicker'" v-model="filter.value"
-                               :placeholder="filter.title" format="DD-MM-YYYY" range valueType="format"></date-picker>
+
+                        <date-picker v-else-if="filter.type==='datepicker'" v-model="filter.value" :placeholder="filter.title"
+                                     format="DD-MM-YYYY" valueType="format"></date-picker>
+                        <date-picker v-else-if="filter.type==='rangepicker'" v-model="filter.value"
+                                     :placeholder="filter.title" format="DD-MM-YYYY" range valueType="format"></date-picker>
+
+
                 </div>
               </div>
+                <div :class="options.colSize[0]" v-if="options.showFilter && options.showFilter.includes('CowCode')">
+                    <div>
+                        <input type="text" class="form-control" placeholder="Cow Code" v-model="requestParams.CowCode">
+                    </div>
+                </div>
               <div class="col-12 col-md-1 ml-1">
                 <div class="form-group" style="margin-bottom: unset">
                   <button class="btn btn-primary" @click="readData">Filter</button>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -166,6 +175,7 @@ export default {
   data() {
     return {
       time1: null,
+        CowCode:'',
       dataSets: [],
       filename: '',
       requestParams: {
@@ -242,49 +252,6 @@ export default {
                 this.totalPage = Math.ceil(this.totalCount / this.requestParams.take);
                 this.pages = this.pagination(this.currentPage, this.totalPage);
 
-                if (this.advance && this.advance.length > 0) {
-                  let ins = this;
-                  this.dataSets.forEach(function(item) {
-                    var advance = ins.advance.find(function(ad){
-                      return ad === item.AdvanceID;
-                    });
-                    if (advance !== undefined) {
-                      item.checked = true;
-                    } else {
-                      item.checked = false;
-                    }
-                  });
-                }
-                if (this.requisitionId !== '') {
-                  let ins2 = this
-                  this.dataSets.forEach(function (item) {
-                    if (ins2.checkType === false) {
-                      item.check_disabled = false
-                    } else {
-                      if (item.RequisitionID === ins2.requisitionId) {
-                        item.check_disabled = false
-                      }
-                      else {
-                        item.check_disabled = true
-                        item.checked = false
-                      }
-                    }
-                  })
-                }
-                console.log(this.requisitionId)
-                // if (this.action && this.action.length > 0) {
-                //   let ins2 = this;
-                //   this.dataSets.forEach(function(item) {
-                //     var action = ins2.action.find(function(ac){
-                //       return ac === item.AdvanceID;
-                //     });
-                //     if (action !== undefined) {
-                //       item.checked_action = true;
-                //     } else {
-                //       item.checked_action = false;
-                //     }
-                //   });
-                // }
               }
               this.isLoading = false;
             } else {

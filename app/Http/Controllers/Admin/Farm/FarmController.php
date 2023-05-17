@@ -25,8 +25,8 @@ class FarmController extends Controller
         $farms=  Farms::join('Users', 'Users.UserID', 'Farms.EntryBy')
             ->where(function ($q) use ($search) {
             $q->where('Farms.FarmName', 'like', '%' . $search . '%');
-            $q->where('Farms.Owner', 'like', '%' . $search . '%');
-            $q->where('Farms.RegistrationNumber', 'like', '%' . $search . '%');
+            $q->orWhere('Farms.Owner', 'like', '%' . $search . '%');
+            $q->orWhere('Farms.RegistrationNumber', 'like', '%' . $search . '%');
             $q->orWhere('Farms.Mobile', 'like', '%' . $search . '%');
             $q->orWhere('Farms.Address', 'like', '%' . $search . '%');
         })
