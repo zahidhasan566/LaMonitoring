@@ -52,7 +52,7 @@
                                                             v-slot="{ errors }">
                                             <div class="form-group">
                                                 <label for="name">NID <span class="error">*</span></label>
-                                                <input type="number" class="form-control"
+                                                <input type="text" class="form-control"
                                                        :class="{'error-border': errors[0]}" id="NID"
                                                        v-model="NID" name="NID" placeholder="NID">
                                                 <span class="error-message"> {{ errors[0] }}</span>
@@ -64,7 +64,7 @@
                                                             v-slot="{ errors }">
                                             <div class="form-group">
                                                 <label for="mobile">Mobile <span class="error">*</span></label>
-                                                <input type="number" class="form-control"
+                                                <input type="text" class="form-control"
                                                        :class="{'error-border': errors[0]}"
                                                        v-model="mobile" placeholder="Mobile">
                                                 <span class="error-message"> {{ errors[0] }}</span>
@@ -212,6 +212,7 @@ export default {
                 this.selectedDepartment = [];
                 let instance = this;
                 this.axiosGet('user/get-user-info/' + row.UserID, function (response) {
+                    console.log(response.data)
                     var user = response.data;
                     instance.title = 'Update User';
                     instance.buttonText = "Update";
