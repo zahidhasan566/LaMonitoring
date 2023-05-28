@@ -33,7 +33,7 @@ class CowController extends Controller
             $existingCowCodeCheck = Cows::where('CowCode',$request->CowCode)->first();
             if(!empty($existingCowCodeCheck) && !empty($existingFarmName) ){
                 return response()->json([
-                    'status' => 'error',
+                    'status' => 'Something Went Wrong',
                     'message' => 'Cow Code And Farm Name Already Taken'
                 ], 400);
             }
@@ -66,7 +66,7 @@ class CowController extends Controller
 
             }catch (\Exception $exception) {
                     return response()->json([
-                        'status' => 'error',
+                        'status' => 'Something Went Wrong',
                         'message' => $exception->getMessage() . '-' . $exception->getLine()
                     ], 500);
                 }

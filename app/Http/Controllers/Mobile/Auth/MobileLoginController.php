@@ -38,33 +38,42 @@ class MobileLoginController extends Controller
         $otpCode = $request->otpCode;
         $user = User::Where(['Mobile' =>$phone,'otpCode' => $otpCode])->first();
 
-        if($user){
-            if ($phone && $token = JWTAuth::attempt(['Mobile' => $phone, 'password' => $user->RawPassword])) {
-                $user->OtpVerification = 1;
-                $user->save();
-                return $this->respondWithToken($token,$user);
+        try {
+            if($user){
+                if ($phone && $token = JWTAuth::attempt(['Mobile' => $phone, 'password' => $user->RawPassword])) {
+                    $user->OtpVerification = 1;
+                    $user->save();
+                    $userDetails = User::select('UserID','Name','Email','Mobile','NID','Address','RoleID','Status','OtpCode','OtpVerification')->Where(['Mobile' =>$phone,'otpCode' => $otpCode])->first();
+                    return $this->respondWithToken($token,$userDetails);
+                }
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Code Sent Successfully!'
+                ], 200);
+
             }
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Code Sent Successfully!'
-            ], 200);
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid Otp Code!'
+                ], 401);
+            }
 
         }
-        else{
+        catch (\Exception $exception) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Invalid Otp Code!'
-            ], 401);
+                'status' => 'Something Went Wrong',
+                'message' => $exception->getMessage()
+            ], 500);
         }
     }
 
-    protected function respondWithToken($token,$user)
+    protected function respondWithToken($token,$userDetails)
     {
 //        dd($user);
         return response()->json([
             'access_token' => $token,
-            'Users' => $user,
-            'token_type' => 'bearer',
+            'Data' => $userDetails,
         ]);
     }
 

@@ -26,11 +26,13 @@ Route::group(['middleware' => ['jwt']], function () {
 
         //FARM AND COW
         Route::post('get-farmList-info',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'getFarmInfo']);
+        Route::post('get-userBasedFarmList-info',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'getUserBasedFarmInfo']);
         Route::post('store-farm-data',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'storeFarmData']);
         Route::post('store-cow-data',[App\Http\Controllers\Mobile\La\Farm\CowController::class,'storeCowData']);
 
         //BREEDING AND
-        Route::get('get-bull-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBullData']);
+        Route::post('get-bull-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBullData']);
+        Route::post('get-bullType-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBullTypeData']);
         Route::post('store-breeding-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'storeBreedingData']);
         Route::post('get-breeding-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBreedingData']);
 

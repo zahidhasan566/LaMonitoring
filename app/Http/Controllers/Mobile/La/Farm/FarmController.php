@@ -15,6 +15,7 @@ class FarmController extends Controller
 {
     public function getFarmInfo(Request $request){
 
+        $search = $request->search;
         $FarmName = $request->FarmName;
         $Owner = $request->Owner;
         $RegistrationNumber = $request->RegistrationNumber;
@@ -22,33 +23,60 @@ class FarmController extends Controller
         $Address = $request->Address;
 
         //get existing farms
-        $allFarmInfo = Farms::select('Farms.*')->with('Cows','LaInfo');
+        $allFarmInfo = Farms::select('Farms.*')->with('Cows','LaInfo:UserID,Name,Email,Mobile,NID,Address,RoleID,Status,OtpCode,OtpVerification')
+            ->where(function ($q) use ($search) {
+                $q->where('Farms.FarmName', 'like', '%' . $search . '%');
+                $q->orWhere('Owner', 'like', '%' . $search . '%');
+                $q->orWhere('RegistrationNumber', 'like', '%' . $search . '%');
+                $q->orWhere('Mobile', 'like', '%' . $search . '%');
+            })
+        ;
 
-        //Search Option
-        if(!empty($FarmName)){
-            $allFarmInfo = $allFarmInfo->where('FarmName',$FarmName);
-        }
-        if(!empty($Owner)){
-            $allFarmInfo = $allFarmInfo->where('Owner',$Owner);
-        }
-        if(!empty($RegistrationNumber)){
-            $allFarmInfo = $allFarmInfo->where('RegistrationNumber',$request->RegistrationNumber);
-        }
-        if(!empty($Mobile)){
-            $allFarmInfo = $allFarmInfo->where('Mobile',$Mobile);
-        }
-        if(!empty($Address)){
-            $allFarmInfo = $allFarmInfo->where('Address',$Address);
-        }
+//        //Search Option
+//        if(!empty($FarmName)){
+//            $allFarmInfo = $allFarmInfo->orWhere('Farms.FarmName', 'like', '%' . $search . '%');
+//        }
+//        if(!empty($Owner)){
+//            $allFarmInfo = $allFarmInfo->orWhere('Owner', 'like', '%' . $search . '%');
+//        }
+//        if(!empty($RegistrationNumber)){
+//            $allFarmInfo = $allFarmInfo->orWhere('RegistrationNumber','like', '%' . $search . '%');
+//        }
+//        if(!empty($Mobile)){
+//            $allFarmInfo = $allFarmInfo->orWhere('Mobile','like', '%' . $search. '%');
+//        }
 
         $allFarmInfo= $allFarmInfo->paginate(20);
 
 
         return response()->json([
             'status' => 'success',
-            '$allFarmInfo' => $allFarmInfo
+            'Data' => $allFarmInfo
         ], 200);
     }
+    public function getUserBasedFarmInfo(Request $request){
+        $search = $request->search;
+        $FarmName = $request->FarmName;
+        $Owner = $request->Owner;
+        $RegistrationNumber = $request->RegistrationNumber;
+        $Mobile = $request->Mobile;
+        $Address = $request->Address;
+
+        //get existing farms
+        $userBasedFarmInfo = Farms::select('Farms.*')->with('Cows','LaInfo:UserID,Name,Email,Mobile,NID,Address,RoleID,Status,OtpCode,OtpVerification')
+            ->where('Farms.EntryBy',Auth::user()->UserID)
+        ;
+        $userBasedFarmInfo= $userBasedFarmInfo->get();
+        $totalFarm = $userBasedFarmInfo->count();
+
+
+        return response()->json([
+            'status' => 'success',
+            'Data' =>$userBasedFarmInfo,
+            'TotalFarm' =>$totalFarm,
+        ], 200);
+    }
+
 
     public function storeFarmData(Request $request){
 

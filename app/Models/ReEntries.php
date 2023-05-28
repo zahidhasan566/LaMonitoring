@@ -15,4 +15,13 @@ class ReEntries extends Model
     public function LaInfo() {
         return $this->hasOne(User::class,'UserID','EntryBy');
     }
+
+    public function farms() {
+        return $this->belongsTo(Farms::class,'FarmID','FarmID');
+    }
+
+    public function cows() {
+        return $this->belongsTo(Cows::class,'CowID','CowID');
+    }
+
 }

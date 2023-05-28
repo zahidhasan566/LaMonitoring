@@ -14,6 +14,7 @@ class Farms extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+
     public function Cows() {
         return $this->hasMany(Cows::class,'FarmID','FarmID');
     }
