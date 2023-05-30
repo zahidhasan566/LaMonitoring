@@ -2,7 +2,7 @@
     <div class="topbar">
         <!-- LOGO -->
         <div class="topbar-left">
-            <a href="index.html" class="logo">
+            <a href="javascript:void(0)" class="logo">
                 <span style="color: white">LA MONITORING </span><i>LA MONITORING</i>
             </a>
         </div>
