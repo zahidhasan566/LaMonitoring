@@ -7,9 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Traits\SMS;
+
 
 class MobileLoginController extends Controller
 {
+    use SMS;
     public function index(Request $request){
         $phone = $request->phone;
         $user = User::Where(['Mobile' =>$phone ,'Status' => 1])->first();
@@ -18,10 +21,26 @@ class MobileLoginController extends Controller
             $user->OtpCode = $SixDigitRandomNumber;
             $user->OtpVerification =0;
             $user->save();
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Code Sent Successfully!'
-            ], 200);
+            $smscontent = 'আপনার লগিনের জন্য ওটিপি কোডটি হলো- ' .$SixDigitRandomNumber ;
+            $mobileno = $phone;
+            $respons = $this->sendsms($ip = '192.168.100.213', $userid = 'motors', $password = 'Asdf1234', $smstext = urlencode($smscontent), $receipient = urlencode($mobileno));
+
+            if($respons->message =='Success!'){
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Code Sent Successfully!'
+                ], 200);
+            }
+            else{
+                return response()->json([
+                    'status' => 'Error',
+                    'message' => 'Failed to sent code!'
+                ], 401);
+
+            }
+
+//            print_r($sendSMS);
+
 
         }
         else{
