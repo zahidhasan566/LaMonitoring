@@ -137,7 +137,7 @@ class BreedingController extends Controller
 //            ->where('ReEntries.EntryID','Entries.EntryID')
 //            ->get();
 
-        $allBreedingInfo = DB::select("select e.EntryID,c.CowCode,f.FarmName,
+        $allBreedingInfo = DB::select("select e.EntryID,e.SeedDate,e.MilkCap,c.CowID,c.CowType,c.Age,c.Color,f.FarmID,c.CowCode,f.FarmName,
        (select COUNT(EntryID) from ReEntries re where re.EntryID = e.EntryID) as NumberOfReBreed
        from Entries e
         join Farms f on f.FarmID = e.FarmID

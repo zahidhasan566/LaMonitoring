@@ -24,6 +24,9 @@ Route::group(['middleware' => ['jwt']], function () {
     //LA USERS
     Route::group(['prefix' => 'la'],function () {
 
+        //get dashboardData
+        Route::post('get-dashboard-info',[\App\Http\Controllers\Mobile\La\Dashborad\DashboardController::class,'index']);
+
         //FARM AND COW
         Route::post('get-farmList-info',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'getFarmInfo']);
         Route::post('get-userBasedFarmList-info',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'getUserBasedFarmInfo']);
