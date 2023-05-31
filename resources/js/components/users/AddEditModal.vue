@@ -281,12 +281,15 @@ export default {
             });
         },
         checkExistingUserID(UserID){
-            let instance = this;
-            instance.existingUserIDs.forEach(function(item) {
-                if (item.UserID == UserID) {
-                    instance.userIdError= true;
-                }
+            let instance = this
+            let user = instance.existingUserIDs.filter(function(elem){
+                return elem.UserID === UserID
             });
+            if (user.length > 0) {
+                instance.userIdError = true
+            } else {
+                instance.userIdError = false
+            }
         },
         onSubmit() {
             this.$store.commit('submitButtonLoadingStatus', true);
