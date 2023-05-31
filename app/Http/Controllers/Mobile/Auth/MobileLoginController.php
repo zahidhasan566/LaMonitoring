@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Mobile\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Traits\SMS;
@@ -24,6 +26,19 @@ class MobileLoginController extends Controller
             $smscontent = 'আপনার লগিনের জন্য ওটিপি কোডটি হলো- ' .$SixDigitRandomNumber ;
             $mobileno = $phone;
             $respons = $this->sendsms($ip = '192.168.100.213', $userid = 'motors', $password = 'Asdf1234', $smstext = urlencode($smscontent), $receipient = urlencode($mobileno));
+
+            //Data Insert Sms Log
+            $smsLog = new SmsLog();
+            $smsLog->MobileNumber = $mobileno;
+            $smsLog->Message = $smscontent;
+            $smsLog->ApiSmsResponse = $respons->message;
+            $smsLog->ApiInsertedSmsIds = $respons->insertedSmsIds;
+            $smsLog->Sent = ($respons->message =='Success!') ? 'Success' : 'Failed';
+            $smsLog->SentTime =  Carbon::now()->format('Y-m-d H:i:s');
+            $smsLog->CreatedAt = Carbon::now()->format('Y-m-d H:i:s');
+            $smsLog->UpdatedAt = Carbon::now()->format('Y-m-d H:i:s');
+            $smsLog->save();
+
 
             if($respons->message =='Success!'){
                 return response()->json([
