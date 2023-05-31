@@ -16,10 +16,12 @@
                                             <div class="form-group">
                                                 <label for="name">User ID <span class="error">*</span></label>
                                                 <input type="text" class="form-control"
+                                                       @change="checkExistingUserID(UserID)"
                                                        :class="{'error-border': errors[0]}"
                                                        v-model="UserID" placeholder="User ID"
                                                        :disabled="actionType==='edit'" autocomplete="off">
                                                 <span class="error-message"> {{ errors[0] }}</span>
+                                                <span class="error-message" v-if="userIdError"> User Id Already Exist</span>
                                             </div>
                                         </ValidationProvider>
                                     </div>
@@ -199,6 +201,8 @@ export default {
             roles: [],
             allSubMenu: [],
             allSubMenuId: [],
+            existingUserIDs:[],
+            userIdError:false,
         }
     },
     computed: {},
@@ -271,9 +275,17 @@ export default {
             this.axiosGet('user/modal', function (response) {
                 instance.roles = response.roles;
                 instance.allSubMenu = response.allSubMenus;
-                console.log(instance.allSubMenu)
+                instance.existingUserIDs= response.userIDs;
             }, function (error) {
 
+            });
+        },
+        checkExistingUserID(UserID){
+            let instance = this;
+            instance.existingUserIDs.forEach(function(item) {
+                if (item.UserID == UserID) {
+                    instance.userIdError= true;
+                }
             });
         },
         onSubmit() {
@@ -281,26 +293,29 @@ export default {
             let url = '';
             if (this.actionType === 'add') url = 'user/add';
             else url = 'user/update'
-            this.axiosPost(url, {
-                UserID: this.UserID,
-                Name: this.Name,
-                email: this.email,
-                mobile: this.mobile,
-                status: this.status,
-                NID: this.NID,
-                Address: this.Address,
-                userType: this.userType,
-                password: this.password,
-                selectedSubMenu: this.allSubMenuId
-            }, (response) => {
-                this.successNoti(response.message);
-                $("#add-edit-dept").modal("toggle");
-                bus.$emit('refresh-datatable');
-                this.$store.commit('submitButtonLoadingStatus', false);
-            }, (error) => {
-                this.errorNoti(error);
-                this.$store.commit('submitButtonLoadingStatus', false);
-            })
+            if(!this.userIdError){
+                this.axiosPost(url, {
+                    UserID: this.UserID,
+                    Name: this.Name,
+                    email: this.email,
+                    mobile: this.mobile,
+                    status: this.status,
+                    NID: this.NID,
+                    Address: this.Address,
+                    userType: this.userType,
+                    password: this.password,
+                    selectedSubMenu: this.allSubMenuId
+                }, (response) => {
+                    this.successNoti(response.message);
+                    $("#add-edit-dept").modal("toggle");
+                    bus.$emit('refresh-datatable');
+                    this.$store.commit('submitButtonLoadingStatus', false);
+                }, (error) => {
+                    this.errorNoti(error);
+                    this.$store.commit('submitButtonLoadingStatus', false);
+                })
+            }
+
         }
     }
 }

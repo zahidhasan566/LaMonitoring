@@ -32,8 +32,10 @@ class AdminUserController extends Controller
 
     //Initial List View
     public function userModalData(){
+        $userIDs = User::select('UserID')->get();
         return response()->json([
             'status' => 'success',
+            'userIDs' => $userIDs,
             'roles' => RoleService::list(),
             'allSubMenus' => Menu::whereNotIn('MenuID',['Dashboard','Users'])->with('allSubMenus')->orderBy('MenuOrder','asc')->get()
         ]);
