@@ -16,24 +16,29 @@ class AuthController extends Controller
     {
         $phone = 0;
         $email = '';
-
+        $username = '';
 
         if (is_numeric($request->usermailorphone)) {
             $phone = $request->get('usermailorphone');
-
         }
         if (filter_var($request->get('usermailorphone'), FILTER_VALIDATE_EMAIL)) {
             $email = $request->get('usermailorphone');
         }
-        if($phone===0 &&  $email===''){
-            return response()->json(['message' => 'Invalid'], 400);
+        else{
+            $username = $request->get('usermailorphone');
         }
-        $user = User::where(['Email' => $email,'Status' => 1])->orWhere(['Mobile' => $phone,'Status' => 1])->first();
+        if($phone===0 &&  $email==='' && $username=== ''){
+            return response()->json(['message' => 'Invalid User'], 400);
+        }
+        $user = User::where(['Email' => $email,'Status' => 1])->orWhere(['Mobile' => $phone,'Status' => 1])->orWhere(['Name' => $username,'Status' => 1])->first();
 
         if ($phone && $token = JWTAuth::attempt(['Mobile' => $phone, 'password' => $request->password,'Status' => 1])) {
             return $this->respondWithToken($token);
         }
-        elseif ($email && $token = JWTAuth::attempt(['Email' => $email, 'password' => $request->password,'Status' => 1])) {
+        elseif ($username && $token = JWTAuth::attempt(['Name' => $username, 'password' => $request->password,'Status' => 1]) ) {
+            return $this->respondWithToken($token);
+        }
+        elseif ($email && $token = JWTAuth::attempt(['Email' => $email, 'password' => $request->password,'Status' => 1]) ) {
             return $this->respondWithToken($token);
         } else {
             return response()->json([
