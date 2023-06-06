@@ -46,10 +46,12 @@ Route::group(['middleware' => ['jwt']], function () {
         //PREGNANCY INFORMATION
         Route::post('get-pregnancy-supporting-data',[\App\Http\Controllers\Mobile\La\Pregnacy\PregnancyContrller::class,'getPregnancySupportingData']);
         Route::post('store-pregnancy-data',[\App\Http\Controllers\Mobile\La\Pregnacy\PregnancyContrller::class,'storePregnancyData']);
+        Route::post('get-all-pregnancy-data',[\App\Http\Controllers\Mobile\La\Pregnacy\PregnancyContrller::class,'getAllPregnancyData']);
 
         //CULF INFORMATION
         Route::post('get-culf-supporting-data',[\App\Http\Controllers\Mobile\La\Culf\CulfController::class,'getCulfSupportingData']);
         Route::post('store-culf-data',[\App\Http\Controllers\Mobile\La\Culf\CulfController::class,'storeCulfData']);
+        Route::post('get-all-culf-data',[\App\Http\Controllers\Mobile\La\Culf\CulfController::class,'getAllCulfData']);
 
 
     });

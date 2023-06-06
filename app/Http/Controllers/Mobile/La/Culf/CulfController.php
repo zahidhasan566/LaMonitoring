@@ -86,4 +86,21 @@ class CulfController extends Controller
             }
         }
     }
+
+    //GET ALL DATA
+    public function getAllCulfData(){
+        try{
+            $existingData = CulfInformation::select('CulfInformation.*')->where('CulfInformation.EntryBy', Auth::user()->UserID)->get();
+            return response()->json([
+                'status' => 'success',
+                'data' =>$existingData
+            ]);
+        }
+        catch (\Exception $exception){
+            return response()->json([
+                'status' => 'Something Went Wrong',
+                'message' => $exception->getMessage() . '-' . $exception->getLine()
+            ], 500);
+        }
+    }
 }

@@ -93,6 +93,22 @@ class PregnancyContrller extends Controller
                 ], 500);
             }
         }
+    }
 
+    //GET ALL DATA
+    public function getAllPregnancyData(){
+        try{
+            $existingData = PregnancyInformation::select('PregnancyInformation.*')->where('PregnancyInformation.EntryBy', Auth::user()->UserID)->get();
+            return response()->json([
+                'status' => 'success',
+                'data' =>$existingData
+            ]);
+        }
+        catch (\Exception $exception){
+            return response()->json([
+                'status' => 'Something Went Wrong',
+                'message' => $exception->getMessage() . '-' . $exception->getLine()
+            ], 500);
+        }
     }
 }
