@@ -33,7 +33,7 @@ Route::group(['middleware' => ['jwt']], function () {
         Route::post('store-farm-data',[App\Http\Controllers\Mobile\La\Farm\FarmController::class,'storeFarmData']);
         Route::post('store-cow-data',[App\Http\Controllers\Mobile\La\Farm\CowController::class,'storeCowData']);
 
-        //BREEDING AND
+        //BREEDING
         Route::post('get-bull-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBullData']);
         Route::post('get-bullType-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'getBullTypeData']);
         Route::post('store-breeding-data',[App\Http\Controllers\Mobile\La\Breeding\BreedingController::class,'storeBreedingData']);
@@ -42,6 +42,14 @@ Route::group(['middleware' => ['jwt']], function () {
         //RE BREEDING
         Route::post('get-re-breeding-data',[App\Http\Controllers\Mobile\La\Breeding\ReBreedingController::class,'getReBreedingData']);
         Route::post('store-re-breeding-data',[App\Http\Controllers\Mobile\La\Breeding\ReBreedingController::class,'storeReBreedingData']);
+
+        //PREGNANCY INFORMATION
+        Route::post('get-pregnancy-supporting-data',[\App\Http\Controllers\Mobile\La\Pregnacy\PregnancyContrller::class,'getPregnancySupportingData']);
+        Route::post('store-pregnancy-data',[\App\Http\Controllers\Mobile\La\Pregnacy\PregnancyContrller::class,'storePregnancyData']);
+
+        //CULF INFORMATION
+        Route::post('get-culf-supporting-data',[\App\Http\Controllers\Mobile\La\Culf\CulfController::class,'getCulfSupportingData']);
+        Route::post('store-culf-data',[\App\Http\Controllers\Mobile\La\Culf\CulfController::class,'storeCulfData']);
 
 
     });
