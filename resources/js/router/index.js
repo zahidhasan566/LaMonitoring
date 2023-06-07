@@ -16,7 +16,9 @@ import EventList from "../views/admin/setting/events/EventList.vue";
 import NoticeList from "../views/admin/setting/notices/NoticeList.vue";
 import BreedingReportList from "../views/admin/reports/breedingReportList.vue";
 import ReBreedingReportList from "../views/admin/reports/reBreedingReportList.vue";
-
+import PregnancyReportList from "../views/admin/reports/pregnancyReportList.vue";
+import pregnancyReportList from "../views/admin/reports/pregnancyReportList.vue";
+import culfReportList from "../views/admin/reports/culfReportList.vue";
 
 Vue.use(VueRouter);
 
@@ -109,6 +111,18 @@ const routes = [
                 path: baseurl + 'report/reBreeding',
                 name: 'ReBreedingReportList',
                 component: ReBreedingReportList
+            },
+            //ADMIN ROUTE | Re Pregnancy Report LIST
+            {
+                path: baseurl + 'report/pregnancy',
+                name: 'pregnancyReportList',
+                component: pregnancyReportList
+            },
+            //ADMIN ROUTE | Culf Report LIST
+            {
+                path: baseurl + 'report/culf',
+                name: 'culfReportList',
+                component: culfReportList
             },
 
         ],

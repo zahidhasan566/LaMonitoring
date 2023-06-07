@@ -47,7 +47,6 @@ class BreedingReportController extends Controller
         if(!empty($request->CowCode)){
             $entries =  $entries->where('Cows.CowCode',$request->CowCode);
         }
-//        return Entries::all();
         return $entries->paginate($take);
     }
 

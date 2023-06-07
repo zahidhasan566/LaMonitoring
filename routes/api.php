@@ -85,6 +85,8 @@ Route::group(['middleware' => ['jwt:api']], function () {
         //Report
         Route::post('report/breedingReportList', [\App\Http\Controllers\Admin\Report\BreedingReportController::class, 'index']);
         Route::post('report/reBreedingReportList', [\App\Http\Controllers\Admin\Report\BreedingReportController::class, 'reBreeding']);
+        Route::post('report/pregnancy', [\App\Http\Controllers\Admin\Report\PregnancyReportController::class, 'index']);
+        Route::post('report/culf', [\App\Http\Controllers\Admin\Report\CulfReportController::class, 'index']);
 
 
 
