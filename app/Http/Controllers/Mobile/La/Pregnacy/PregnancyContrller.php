@@ -21,14 +21,17 @@ class PregnancyContrller extends Controller
                 'Cows.CowCode',
                 'Entries.SeedDate',
                 'Entries.BullID',
+                'Bulls.BullName',
                 'Farms.FarmID',
                 'Entries.EntryID',
                 'Cows.CowID',
                 )
                 ->join('Cows','Cows.CowID', 'Entries.CowID')
                 ->join('Farms','Farms.FarmID', 'Cows.FarmID')
+                ->join('Bulls','Bulls.BullID', 'Entries.BullID')
                 ->where('Cows.CowCode',$request->CowCode)
                 ->where('Entries.EntryBy', Auth::user()->UserID)
+                ->OrderBy('Entries.EntryID','desc')
                 ->first();
 
             return response()->json([
@@ -47,27 +50,45 @@ class PregnancyContrller extends Controller
 
     public function storePregnancyData(Request $request){
         $validator = Validator::make($request->all(), [
-            'EntryID' => 'required|integer',
-            'BullID' => 'required|integer',
-            'FarmID' => 'required|integer',
-            'CowCode' => 'required',
-            'Owner' => 'required',
             'PregnancyTestDate' => 'required|date',
-            'PregnancyTestResult' => 'required'
+            'PregnancyTestResult' => 'required',
+            'PossibleDeliveryDate' => 'required_if:PregnancyTestResult,==,Y',
         ]);
+        
         if ($validator->fails()){
             return response()->json(['message' => $validator->errors()], 400);
         }
         else{
-            try{
+            $existingCow = Entries::select(
+                'Farms.FarmID',
+                'Farms.Owner',
+                'Cows.CowCode',
+                'Entries.SeedDate',
+                'Entries.BullID',
+                'Farms.FarmID',
+                'Entries.EntryID',
+                'Cows.CowID',
+            )
+                ->join('Cows','Cows.CowID', 'Entries.CowID')
+                ->join('Farms','Farms.FarmID', 'Cows.FarmID')
+                ->join('Bulls','Bulls.BullID', 'Entries.BullID')
+                ->where('Entries.CowID', $request->CowID)
+                ->first();
 
+            if(empty($existingCow)){
+                return response()->json([
+                    'status' => 'error',
+                    'message' =>'Pregnancy Data Did Not Match By Any Cow'
+                ]);
+            }
+            try{
                 //store pregnancy data
                 $storePregnancyData = new PregnancyInformation();
-                $storePregnancyData->EntryID = $request->EntryID;
-                $storePregnancyData->Owner = $request->Owner;
-                $storePregnancyData->CowID = $request->CowID;
-                $storePregnancyData->SeedDate = $request->SeedDate;
-                $storePregnancyData->BullID = $request->BullID;
+                $storePregnancyData->EntryID = $existingCow->EntryID;
+                $storePregnancyData->Owner = $existingCow->Owner;
+                $storePregnancyData->CowID = $existingCow->CowID;
+                $storePregnancyData->SeedDate =$existingCow->SeedDate;
+                $storePregnancyData->BullID = $existingCow->BullID;
                 $storePregnancyData->PregnancyTestDate = $request->PregnancyTestDate;
                 $storePregnancyData->PregnancyTestResult = $request->PregnancyTestResult;
                 if($request->PregnancyTestResult =='Y' ){
@@ -98,7 +119,23 @@ class PregnancyContrller extends Controller
     //GET ALL DATA
     public function getAllPregnancyData(){
         try{
-            $existingData = PregnancyInformation::select('PregnancyInformation.*')->where('PregnancyInformation.EntryBy', Auth::user()->UserID)->get();
+            $existingData = PregnancyInformation::select(
+                'PregnancyInformation.PregnancyID',
+                'PregnancyInformation.EntryID',
+                'PregnancyInformation.Owner',
+                'PregnancyInformation.CowID',
+                'PregnancyInformation.SeedDate',
+                'PregnancyInformation.BullID',
+                'Cows.CowCode',
+                'Bulls.BullName',
+                'PregnancyInformation.PregnancyTestDate',
+                'PregnancyInformation.PregnancyTestResult',
+                'PregnancyInformation.PossibleDeliveryDate',
+
+            )
+                 ->join('Cows','Cows.CowID', 'PregnancyInformation.CowID')
+                ->join('Bulls','Bulls.BullID', 'PregnancyInformation.BullID')
+                ->where('PregnancyInformation.EntryBy', Auth::user()->UserID)->get();
             return response()->json([
                 'status' => 'success',
                 'data' =>$existingData

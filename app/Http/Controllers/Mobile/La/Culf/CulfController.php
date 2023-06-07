@@ -20,10 +20,13 @@ class CulfController extends Controller
         $existingCow = Entries::select(
             'Cows.CowCode',
             'Entries.BullID',
+            'Bulls.BullName'
         )
             ->join('Cows','Cows.CowID', 'Entries.CowID')
             ->join('Farms','Farms.FarmID', 'Cows.FarmID')
+            ->join('Bulls','Bulls.BullID', 'Entries.BullID')
             ->where('Entries.EntryBy', Auth::user()->UserID)
+            ->OrderBy('Entries.EntryID','desc')
             ->get();
 
         return response()->json([
@@ -50,6 +53,12 @@ class CulfController extends Controller
             'Gender' => 'required',
             'BirthWeight' => 'required',
         ]);
+        //Check existing Culf
+        $check_existing_culf = CulfInformation::all();
+        foreach ($check_existing_culf as $single_culf){
+            if($request->CulfCode == $single_culf->CulfCode)  return response()->json(['message' => 'The Culf Already Exist'], 400);
+        }
+
         if ($validator->fails()){
             return response()->json(['message' => $validator->errors()], 400);
         }
@@ -90,7 +99,19 @@ class CulfController extends Controller
     //GET ALL DATA
     public function getAllCulfData(){
         try{
-            $existingData = CulfInformation::select('CulfInformation.*')->where('CulfInformation.EntryBy', Auth::user()->UserID)->get();
+            $existingData = CulfInformation::select(
+                'CulfInformation.CulfID',
+                'CulfInformation.CulfCode',
+                'CulfInformation.CulfBirthDate',
+                'CulfInformation.Gender',
+                'CulfInformation.Color',
+                'CulfInformation.BirthWeight',
+                'CulfInformation.CowCode',
+                'CulfInformation.BullID',
+                'Bulls.BullName'
+            )
+                ->join('Bulls','Bulls.BullID', 'CulfInformation.BullID')
+                ->where('CulfInformation.EntryBy', Auth::user()->UserID)->get();
             return response()->json([
                 'status' => 'success',
                 'data' =>$existingData
