@@ -212,7 +212,7 @@ export default {
                     EventEndTo: this.EventEndDate,
                     Attachment: this.Attachment,
                     Status: this.Status,
-                    AttachmentFlag: this.Status,
+                    AttachmentFlag: this.AttachmentFlag,
                 }, (response) => {
                     this.successNoti(response.message);
                     $("#add-edit-dept").modal("toggle");
