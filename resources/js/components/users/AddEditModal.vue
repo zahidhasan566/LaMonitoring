@@ -11,21 +11,6 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <ValidationProvider name="User ID" mode="eager" rules="required"
-                                                            v-slot="{ errors }">
-                                            <div class="form-group">
-                                                <label for="name">User ID <span class="error">*</span></label>
-                                                <input type="text" class="form-control"
-                                                       @change="checkExistingUserID(UserID)"
-                                                       :class="{'error-border': errors[0]}"
-                                                       v-model="UserID" placeholder="User ID"
-                                                       :disabled="actionType==='edit'" autocomplete="off">
-                                                <span class="error-message"> {{ errors[0] }}</span>
-                                                <span class="error-message" v-if="userIdError"> User Id Already Exist</span>
-                                            </div>
-                                        </ValidationProvider>
-                                    </div>
-                                    <div class="col-12 col-md-6">
                                         <ValidationProvider name="Name" mode="eager" rules="required"
                                                             v-slot="{ errors }">
                                             <div class="form-group">
@@ -38,28 +23,22 @@
                                         </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <ValidationProvider name="Address" mode="eager" rules="required"
-                                                            v-slot="{ errors }">
                                             <div class="form-group">
-                                                <label for="name">Address <span class="error">*</span></label>
+                                                <label for="name">Address </label>
                                                 <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}" id="Address"
+                                                        id="Address"
                                                        v-model="Address" name="Address" placeholder="Address">
-                                                <span class="error-message"> {{ errors[0] }}</span>
+                                                <span class="error-message"> </span>
                                             </div>
-                                        </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <ValidationProvider name="NID" mode="eager" rules="required"
-                                                            v-slot="{ errors }">
                                             <div class="form-group">
-                                                <label for="name">NID <span class="error">*</span></label>
+                                                <label for="name">NID </label>
                                                 <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}" id="NID"
+                                                      id="NID"
                                                        v-model="NID" name="NID" placeholder="NID">
-                                                <span class="error-message"> {{ errors[0] }}</span>
+                                                <span class="error-message"> </span>
                                             </div>
-                                        </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <ValidationProvider name="mobile" mode="eager" rules="required|min:11|max:11"
@@ -74,16 +53,12 @@
                                         </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <ValidationProvider name="email" mode="eager" rules="required"
-                                                            v-slot="{ errors }">
                                             <div class="form-group">
-                                                <label for="email">Email <span class="error">*</span></label>
+                                                <label for="email">Email </label>
                                                 <input type="text" class="form-control"
-                                                       :class="{'error-border': errors[0]}"
                                                        v-model="email" placeholder="Email">
-                                                <span class="error-message"> {{ errors[0] }}</span>
+                                                <span class="error-message"> </span>
                                             </div>
-                                        </ValidationProvider>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <ValidationProvider name="Status" mode="eager" rules="required"
@@ -215,7 +190,7 @@ export default {
                 this.selectedBusiness = [];
                 this.selectedDepartment = [];
                 let instance = this;
-                this.axiosGet('user/get-user-info/' + row.UserID, function (response) {
+                this.axiosGet('user/get-user-info/' + row.Id, function (response) {
                     console.log(response.data)
                     var user = response.data;
                     instance.title = 'Update User';

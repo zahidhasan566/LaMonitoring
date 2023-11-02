@@ -25,8 +25,8 @@ class AdminUserController extends Controller
                 $q->orWhere('UserID', 'like', '%' . $search . '%');
             })
             ->where('Users.RoleID', '!=', 'SuperAdmin')
-            ->orderBy('UserID', 'asc')
-            ->select('UserID', 'Name', 'Email','Mobile','NID', 'Address', 'Roles.RoleName as Role')
+            ->orderBy('Id', 'desc')
+            ->select('Id', 'Name', 'Email','Mobile','NID', 'Address', 'Roles.RoleName as Role')
             ->paginate($take);
     }
 
@@ -45,11 +45,7 @@ class AdminUserController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'UserID' => 'required|string',
             'Name' => 'required|string',
-            'email' => 'required',
-            'Address' => 'required',
-            'NID' => 'required',
             'mobile' => 'required',
             'userType' => 'required',
             'status' => 'required',
@@ -106,8 +102,8 @@ class AdminUserController extends Controller
     }
 
     //Get Existing User Info
-    public function getUserInfo($UserID){
-        $user = User::where('UserID', $UserID)->with(['roles', 'userSubmenu'])->first();
+    public function getUserInfo($Id){
+        $user = User::where('Id', $Id)->with(['roles', 'userSubmenu'])->first();
         $allSubMenus = Menu::whereNotIn('MenuID', ['Dashboard', 'Users'])->with('allSubMenus')->orderBy('MenuOrder', 'asc')->get();
         return response()->json([
             'status' => 'success',
@@ -119,11 +115,7 @@ class AdminUserController extends Controller
     //Update User
     public function update(Request $request){
         $validator = Validator::make($request->all(), [
-            'UserID' => 'required|string',
             'Name' => 'required|string',
-            'email' => 'required',
-            'Address' => 'required',
-            'NID' => 'required',
             'mobile' => 'required',
             'userType' => 'required',
             'status' => 'required',

@@ -43,7 +43,8 @@ class BreedingController extends Controller
             $start_date = date("Y-m-d", strtotime($first));
             $end_date = date("Y-m-d", strtotime($second));
 
-            $entries =  $entries->whereBetween(DB::raw("CONVERT(DATE,Entries.CreatedAt)"), [$start_date, $end_date]);
+            $entries =  $entries->whereBetween(DB::raw("
+            ."), [$start_date, $end_date]);
         }
         return $entries->paginate($take);
     }
