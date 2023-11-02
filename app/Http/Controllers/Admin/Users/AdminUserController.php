@@ -56,7 +56,7 @@ class AdminUserController extends Controller
         }
         //Data Insert
         try {
-        if (User::where('UserID', $request->UserID)->exists()) {
+        if (User::where('Mobile', $request->mobile)->exists()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'This User is already exists in LaMonitoring Database.'
