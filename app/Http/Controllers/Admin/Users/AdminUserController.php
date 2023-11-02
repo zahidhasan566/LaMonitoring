@@ -126,18 +126,18 @@ class AdminUserController extends Controller
         }
         try {
             DB::beginTransaction();
-            $user = User::where('UserID', $request->UserID)->first();
+            $user = User::where('Id', $request->id)->first();
             $user->Name = $request->Name;
-            $user->Email = $request->email;
+            $user->Email = $request->email ? $request->email:'';
             $user->Mobile = $request->mobile;
-            $user->Address = $request->Address;
-            $user->NID = $request->NID;
+            $user->Address = $request->Address? $request->Address:'';
+            $user->NID = $request->NID ? $request->NID:'';
             $user->RawPassword = ($request->password);
             $user->Password = bcrypt($request->password);
             $user->RoleID = $request->userType['RoleID'];
             $user->Status = $request->status;
-            $user->CreatedBy = Auth::user()->UserID;
-            $user->UpdatedBy = Auth::user()->UserID;
+            $user->CreatedBy = Auth::user()->Id;
+            $user->UpdatedBy = Auth::user()->Id;
             $user->CreatedAt = Carbon::now()->format('Y-m-d H:i:s');
             $user->UpdatedAt = Carbon::now()->format('Y-m-d H:i:s');
             $user->save();

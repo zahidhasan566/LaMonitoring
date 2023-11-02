@@ -160,6 +160,7 @@ export default {
         return {
             title: '',
             UserID: '',
+            id: '',
             Name: '',
             Address: '',
             NID: '',
@@ -191,11 +192,11 @@ export default {
                 this.selectedDepartment = [];
                 let instance = this;
                 this.axiosGet('user/get-user-info/' + row.Id, function (response) {
-                    console.log(response.data)
                     var user = response.data;
                     instance.title = 'Update User';
                     instance.buttonText = "Update";
                     instance.Name = user.Name;
+                    instance.id = user.Id;
                     instance.UserID = user.UserID;
                     instance.NID = user.NID;
                     instance.Address = user.Address;
@@ -274,6 +275,7 @@ export default {
             if(!this.userIdError){
                 this.axiosPost(url, {
                     UserID: this.UserID,
+                    id: this.id,
                     Name: this.Name,
                     email: this.email,
                     mobile: this.mobile,
