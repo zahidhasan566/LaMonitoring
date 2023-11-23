@@ -30,7 +30,7 @@ class PregnancyContrller extends Controller
                 ->join('Farms','Farms.FarmID', 'Cows.FarmID')
                 ->join('Bulls','Bulls.BullID', 'Entries.BullID')
                 ->where('Cows.CowCode',$request->CowCode)
-                ->where('Entries.EntryBy', Auth::user()->UserID)
+                ->where('Entries.EntryBy', Auth::user()->Id)
                 ->OrderBy('Entries.EntryID','desc')
                 ->first();
 
@@ -54,7 +54,7 @@ class PregnancyContrller extends Controller
             'PregnancyTestResult' => 'required',
             'PossibleDeliveryDate' => 'required_if:PregnancyTestResult,==,Y',
         ]);
-        
+
         if ($validator->fails()){
             return response()->json(['message' => $validator->errors()], 400);
         }
@@ -94,7 +94,7 @@ class PregnancyContrller extends Controller
                 if($request->PregnancyTestResult =='Y' ){
                 $storePregnancyData->PossibleDeliveryDate = $request->PossibleDeliveryDate;
                 }
-                $storePregnancyData->EntryBy = Auth::user()->UserID;
+                $storePregnancyData->EntryBy = Auth::user()->Id;
                 $storePregnancyData->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
                 $storePregnancyData->EntryIPAddress = DeviceService::get_client_ip();
                 $storePregnancyData->EntryDiviceState = DeviceService::getBrowser();
@@ -135,7 +135,7 @@ class PregnancyContrller extends Controller
             )
                  ->join('Cows','Cows.CowID', 'PregnancyInformation.CowID')
                 ->join('Bulls','Bulls.BullID', 'PregnancyInformation.BullID')
-                ->where('PregnancyInformation.EntryBy', Auth::user()->UserID)->get();
+                ->where('PregnancyInformation.EntryBy', Auth::user()->Id)->get();
             return response()->json([
                 'status' => 'success',
                 'data' =>$existingData

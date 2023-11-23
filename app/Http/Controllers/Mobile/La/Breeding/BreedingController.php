@@ -97,7 +97,7 @@ class BreedingController extends Controller
                 $breeding->BullTypeID = $request->BullTypeID;
 
 
-                $breeding->EntryBy = Auth::user()->UserID;
+                $breeding->EntryBy = Auth::user()->Id;
                 $breeding->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
                 $breeding->EntryIPAddress = DeviceService::get_client_ip();
                 $breeding->EntryDiviceState = DeviceService::getBrowser();
@@ -125,7 +125,7 @@ class BreedingController extends Controller
         $CowID = $request->CowID;
         $FarmID = $request->FarmID;
         $BullID = $request->BullID;
-        $CurrentUser = Auth::user()->UserID;
+        $CurrentUser = Auth::user()->Id;
 
         //get existing Breeding
 //        $allBreedingInfo = Entries::select('Entries.SeedDate','Farms.FarmName','Cows.CowCode',
@@ -133,7 +133,7 @@ class BreedingController extends Controller
 //            ->join('ReEntries','ReEntries.EntryID','Entries.EntryID')
 //            ->join('Farms','Farms.FarmID','Entries.FarmID')
 //            ->join('Cows','Cows.CowID','Entries.CowID')
-//            ->where('Entries.EntryBy',Auth::user()->UserID)
+//            ->where('Entries.EntryBy',Auth::user()->Id)
 //            ->where('ReEntries.EntryID','Entries.EntryID')
 //            ->get();
 

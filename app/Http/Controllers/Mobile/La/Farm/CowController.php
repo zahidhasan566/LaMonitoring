@@ -49,7 +49,7 @@ class CowController extends Controller
                 $cow->Color = $request->Color;
                 $cow->MilkCap = $request->MilkCap;
 
-                $cow->EntryBy = Auth::user()->UserID;
+                $cow->EntryBy = Auth::user()->Id;
                 $cow->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
                 $cow->EntryIPAddress = DeviceService::get_client_ip();
                 $cow->EntryDiviceState = DeviceService::getBrowser();

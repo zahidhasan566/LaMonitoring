@@ -23,7 +23,7 @@ class ReBreedingController extends Controller
             $allReBreedingInfo = ReEntries::join('Farms','Farms.FarmID','ReEntries.FarmID')
                 ->join('Cows','Cows.CowID','ReEntries.CowID')
                 ->select('EntryID','Farms.FarmName','Cows.CowCode','ReEntries.SeedDate',DB::raw("COUNT(EntryID) as ReBreedCount"))
-                ->where('ReEntries.EntryBy',Auth::user()->UserID)
+                ->where('ReEntries.EntryBy',Auth::user()->Id)
                 ->groupBy('EntryID','Farms.FarmName','Cows.CowCode','ReEntries.SeedDate')
                 ->get();
             $totalReBreeding = count($allReBreedingInfo);
@@ -93,7 +93,7 @@ class ReBreedingController extends Controller
                     $rebreeding->BullTypeID = $request->BullTypeID;
                     $rebreeding->Comments = $request->Comments;
 
-                    $rebreeding->EntryBy = Auth::user()->UserID;
+                    $rebreeding->EntryBy = Auth::user()->Id;
                     $rebreeding->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
                     $rebreeding->EntryIPAddress = DeviceService::get_client_ip();
                     $rebreeding->EntryDiviceState = DeviceService::getBrowser();

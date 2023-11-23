@@ -64,7 +64,7 @@ class FarmController extends Controller
 
         //get existing farms
         $userBasedFarmInfo = Farms::select('Farms.*')->with('Cows','LaInfo:UserID,Name,Email,Mobile,NID,Address,RoleID,Status,OtpCode,OtpVerification')
-            ->where('Farms.EntryBy',Auth::user()->UserID)
+            ->where('Farms.EntryBy',Auth::user()->Id)
         ;
         $userBasedFarmInfo= $userBasedFarmInfo->get();
         $totalFarm = $userBasedFarmInfo->count();
@@ -100,7 +100,7 @@ class FarmController extends Controller
             $farm->Mobile = $request->Mobile;
             $farm->Address = $request->Address;
 
-            $farm->EntryBy = Auth::user()->UserID;
+            $farm->EntryBy = Auth::user()->Id;
             $farm->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
             $farm->EntryIPAddress = DeviceService::get_client_ip();
             $farm->EntryDiviceState = DeviceService::getBrowser();

@@ -22,7 +22,7 @@ class DashboardController extends Controller
             $today =  Carbon::now()->format('Y-m-d H:i:s');
             $totalFarms = Farms::all()->count();
             $totalLa = User::where('RoleID','LA')->count();
-            $totalBreeding = Entries::where('EntryBy',Auth::user()->UserID)->count();
+            $totalBreeding = Entries::where('EntryBy',Auth::user()->Id)->count();
             $totalReBreeding = ReEntries::all()->count();
 
             $events = Events::select('Events.*')->where('Events.EventEndTo','>=',$today)->where('Events.Status',1)->get();

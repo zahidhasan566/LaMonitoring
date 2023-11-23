@@ -25,7 +25,7 @@ class CulfController extends Controller
             ->join('Cows','Cows.CowID', 'Entries.CowID')
             ->join('Farms','Farms.FarmID', 'Cows.FarmID')
             ->join('Bulls','Bulls.BullID', 'Entries.BullID')
-            ->where('Entries.EntryBy', Auth::user()->UserID)
+            ->where('Entries.EntryBy', Auth::user()->Id)
             ->OrderBy('Entries.EntryID','desc')
             ->get();
 
@@ -74,7 +74,7 @@ class CulfController extends Controller
                 $storeCulfData->BirthWeight = $request->BirthWeight;
                 $storeCulfData->CowCode = $request->CowCode;
                 $storeCulfData->BullID = $request->BullID;
-                $storeCulfData->EntryBy = Auth::user()->UserID;
+                $storeCulfData->EntryBy = Auth::user()->Id;
                 $storeCulfData->EntryDate = Carbon::now()->format('Y-m-d H:i:s');
                 $storeCulfData->EntryIPAddress = DeviceService::get_client_ip();
                 $storeCulfData->EntryDiviceState = DeviceService::getBrowser();
@@ -111,7 +111,7 @@ class CulfController extends Controller
                 'Bulls.BullName'
             )
                 ->join('Bulls','Bulls.BullID', 'CulfInformation.BullID')
-                ->where('CulfInformation.EntryBy', Auth::user()->UserID)->get();
+                ->where('CulfInformation.EntryBy', Auth::user()->Id)->get();
             return response()->json([
                 'status' => 'success',
                 'data' =>$existingData
