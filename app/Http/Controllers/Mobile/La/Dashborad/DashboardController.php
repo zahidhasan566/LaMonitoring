@@ -32,6 +32,14 @@ class DashboardController extends Controller
             $eventItems = [];
             foreach ($events as $key=>$single_event){
                 $imageItem=[];
+                $imageItem['EventID']= $single_event->EventID ;
+                $imageItem['EventName']= $single_event->EventName ;
+                $imageItem['EventStartFrom']= $single_event->EventStartFrom ;
+                $imageItem['EventEndTo']= $single_event->EventEndTo ;
+                $imageItem['EventDetails']= $single_event->EventDetails;
+                $imageItem['Status']= $single_event->Status;
+
+
                 $imageItem['image']= url("public/uploads/").'/'.$single_event->EventImage ;
                 array_push($eventItems, $imageItem);
             }
