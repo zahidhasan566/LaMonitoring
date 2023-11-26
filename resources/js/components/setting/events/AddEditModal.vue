@@ -73,6 +73,12 @@
                                             </div>
                                         </ValidationProvider>
                                     </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="EventImage">Event Details <span class="error">*</span></label>
+                                            <textarea type="text" class="form-control" id="EventText" v-model="eventDetails"> </textarea>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -115,6 +121,7 @@ export default {
             type: 'add',
             AttachmentFlag: 0,
             actionType: '',
+            eventDetails:'',
             buttonShow: false,
         }
     },
@@ -135,6 +142,7 @@ export default {
                     instance.EventStartDate = user.EventStartFrom;
                     instance.EventEndDate = user.EventEndTo;
                     instance.Attachment = user.EventImage;
+                    instance.eventDetails = user.EventDetails;
                     instance.Status = user.Status;
                     instance.buttonShow = true;
                     instance.actionType = 'edit';
@@ -212,6 +220,7 @@ export default {
                     EventEndTo: this.EventEndDate,
                     Attachment: this.Attachment,
                     Status: this.Status,
+                    eventDetails: this.eventDetails,
                     AttachmentFlag: this.AttachmentFlag,
                 }, (response) => {
                     this.successNoti(response.message);

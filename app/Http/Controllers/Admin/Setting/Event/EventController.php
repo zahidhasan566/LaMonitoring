@@ -64,6 +64,7 @@ class EventController extends Controller
             $event->EventImage = ImageBase64Service::imageResizeUpload($request->Attachment, 'EventImage', public_path('uploads/'));
             $event->EventStartFrom = $request->EventStartFrom;
             $event->EventEndTo = $request->EventEndTo;
+            $event->EventDetails = $request->eventDetails;
             $event->Status = $request->Status;
 
             $event->EntryBy = Auth::user()->UserID;
@@ -125,6 +126,7 @@ class EventController extends Controller
 
             $event->EventStartFrom = $request->EventStartFrom;
             $event->EventEndTo = $request->EventEndTo;
+            $event->EventDetails = $request->eventDetails;
             $event->Status = $request->Status;
 
             $event->EntryBy = Auth::user()->UserID;
