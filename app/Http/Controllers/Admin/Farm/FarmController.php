@@ -22,7 +22,7 @@ class FarmController extends Controller
         $take = $request->take;
         $search = $request->search;
 
-        $farms=  Farms::join('Users', 'Users.UserID', 'Farms.EntryBy')
+        $farms=  Farms::leftJoin('Users', 'Users.Id', 'Farms.EntryBy')
             ->where(function ($q) use ($search) {
             $q->where('Farms.FarmName', 'like', '%' . $search . '%');
             $q->orWhere('Farms.Owner', 'like', '%' . $search . '%');
@@ -31,7 +31,8 @@ class FarmController extends Controller
             $q->orWhere('Farms.Address', 'like', '%' . $search . '%');
         })
             ->orderBy('Farms.FarmName', 'asc')
-            ->select('Farms.FarmID', 'Farms.FarmName', 'Farms.Owner','Farms.RegistrationNumber','Farms.Mobile', 'Farms.Address','Users.Name as Entry By','Farms.CreatedAt');
+            ->select('Farms.FarmID', 'Farms.FarmName', 'Farms.Owner','Farms.RegistrationNumber',
+                'Farms.Mobile', 'Farms.Address','Users.Name as Entry By','Farms.CreatedAt');
 
         if(!empty($request->filters[0]['value'])){
             $first = $request->filters[0]['value'][0];
